@@ -494,7 +494,7 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
     <section id="folder">
       <div class="sec-eyebrow">STEP 03 <span class="time">· ~5 min</span></div>
       <h2>Set up your project folder</h2>
-      <p class="intro">Everything you build lives in one folder. In this step you'll open Bob, find its terminal, create the folder, and open it. If you set up Python and Bob before today, <b>this is where you start</b> — so we'll go slowly and assume nothing is open yet.</p>
+      <p class="intro">Everything you build lives in one folder. You'll create it straight from Bob's menus — just like VS Code, no terminal commands — then open a terminal for the steps that follow. If you set up Python and Bob before today, <b>this is where you start</b>, so we'll go slowly and assume nothing is open yet.</p>
 
       <div class="callout tip withbob">
         <img src="assets/img/bob-head.png" alt="Bob">
@@ -513,43 +513,34 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
-          <div class="stitle">Open a terminal inside Bob</div>
-          <p>From the top menu choose <b>Terminal → New Terminal</b>. A command panel opens across the bottom of the Bob window. This — not your computer's separate Terminal/PowerShell app — is where you'll run every command from here on.</p>
-          <figure class="shot narrow">
-            <img src="assets/img/bob-new-terminal.png" alt="The Terminal menu in IBM Bob with 'New Terminal' highlighted">
-            <figcaption>Opening a terminal in Bob: <b>Terminal → New Terminal</b>. It appears docked at the bottom of the window.</figcaption>
-          </figure>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Go to a known starting spot</div>
-          <p>A fresh terminal can start in any folder — and if you already opened a folder in Bob earlier, you might be sitting inside it. Before creating anything, move to your <b>home folder</b> so everyone starts from the same place:</p>
-          <div class="cmd"><pre><code>cd ~</code></pre></div>
-          <p>That's a shortcut for your home folder on macOS, Linux, and Windows PowerShell alike. Now you know exactly where the new folder will be created.</p>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Create the folder and go into it</div>
-          <p>Type these two commands (press <kbd>Enter</kbd> after each):</p>
-          <div class="cmd"><pre><code>mkdir event-planner-ws
-cd event-planner-ws</code></pre></div>
+          <div class="stitle">Create your project folder — no terminal needed</div>
+          <p>You'll make the folder the same way you would in VS Code: through the menus. From the top menu choose <b>File → Open Folder…</b>. Your computer's file picker opens.</p>
+          <p>In that picker, click the <b>New Folder</b> button (macOS &amp; Windows say <b>New Folder</b>; Linux says <b>Create Folder</b>), name it exactly:</p>
+          <div class="cmd"><pre><code>event-planner-ws</code></pre></div>
+          <p>Then select that new folder and click <b>Open</b>. This creates the folder <i>and</i> opens it in Bob in one go — no typing commands.</p>
           <div class="note must">
             <div class="nt">Use no spaces in the name</div>
-            <p>Stick with hyphens like <code class="ic">event-planner-ws</code>. A folder name with spaces will break the toolkit later.</p>
+            <p>Stick with hyphens like <code class="ic">event-planner-ws</code>. A folder name with spaces (or a parent folder with spaces) will break the toolkit later.</p>
           </div>
         </li>
         <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Open the folder in Bob</div>
-          <p>Click <b>File → Open Folder</b>, select your new <b>event-planner-ws</b> folder (it's in your home folder from Step 2), and click <b>Open</b>. If Bob asks, click <b>Yes, I trust the authors</b>.</p>
+          <span class="badge">2</span>
+          <div class="stitle">Trust the folder</div>
+          <p>The first time Bob opens a folder it asks whether you trust it. Click <b>Yes, I trust the authors</b> — it's your own empty folder.</p>
           <figure class="shot narrow">
             <img src="assets/img/bob-open-folder.png" alt="Bob's 'Do you trust the authors of the files in this folder?' dialog">
             <figcaption>Click <b>Yes, I trust the authors</b> when this appears. (The screenshot shows a different folder name — you'll see <b>event-planner-ws</b>.)</figcaption>
           </figure>
-          <div class="note">
-            <div class="nt">Bob may reopen the terminal</div>
-            <p>After opening the folder, Bob might reload. If your terminal disappears, just open a fresh one with <b>Terminal → New Terminal</b> — it will now start <i>inside</i> event-planner-ws, so you won't need <code class="ic">cd</code> again.</p>
-          </div>
+          <p>Your new folder now shows in the left-hand <b>Explorer</b> panel. It's empty — that's exactly right.</p>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Open a terminal inside Bob</div>
+          <p>You'll need a terminal for the next steps. From the top menu choose <b>Terminal → New Terminal</b>. A command panel opens across the bottom of the window — and because your folder is already open, it starts <i>inside</i> <code class="ic">event-planner-ws</code> automatically. Use <b>this</b> terminal, not your computer's separate Terminal/PowerShell app.</p>
+          <figure class="shot narrow">
+            <img src="assets/img/bob-new-terminal.png" alt="The Terminal menu in IBM Bob with 'New Terminal' highlighted">
+            <figcaption>Opening a terminal in Bob: <b>Terminal → New Terminal</b>. It appears docked at the bottom of the window.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -754,6 +745,13 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
         <div class="card"><div class="cn">tool 03</div><h4>Manage guest list</h4><p>Adds or removes people and keeps a running headcount.</p></div>
       </div>
       <p>Each tool is just a small Python function with a clear description. Let's write them.</p>
+
+      <h3>The whole picture</h3>
+      <p>Here's how the pieces you're about to build fit together — you build the agent in Bob, deploy it to watsonx Orchestrate, and a small <code class="ic">chat.py</code> on your laptop lets you talk to it. The model (Llama 3.3) decides which of the three tools to call.</p>
+      <figure class="shot">
+        <img src="assets/img/agent-flow-diagram.png" alt="Diagram: you type a message into chat.py on your laptop, which relays it via IAM (key to token) to the agent in watsonx Orchestrate; Llama 3.3 does the reasoning and calls the estimate-budget, suggest-venues, and guest-list tools, then the reply comes back. Bob (with the docs MCP) builds the agent and deploys it via the Orchestrate ADK.">
+        <figcaption>The event-planner agent end to end: built in Bob (with the docs MCP), deployed via the Orchestrate ADK, and reached from your laptop through <code class="ic">chat.py</code>.</figcaption>
+      </figure>
     </section>
 
     <!-- 08 BOB ADK POWER-UP -->
