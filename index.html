@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-os="mac">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Build an Agent — watsonx Orchestrate + IBM Bob Workshop</title>
+<title>Build an Agent · Choose your path — watsonx Orchestrate workshop</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -17,18 +17,13 @@
     --gray-50:#8d8d8d;
     --gray-70:#525252;
     --gray-100:#161616;
-    --blue-60:#0f62fe;
+    --blue-60:#0f62fe;   /* Path B */
     --blue-70:#0043ce;
     --blue-10:#edf5ff;
+    --teal-60:#007d79;   /* Path A */
+    --teal-70:#005d5d;
+    --teal-10:#d9fbfb;
     --green-60:#198038;
-    --green-50:#24a148;
-    --green-10:#defbe6;
-    --yellow-20:#fddc69;
-    --yellow-bg:#fcf4d6;
-    --red-60:#da1e28;
-    --red-10:#fff1f1;
-    --sidebar-w:280px;
-    --maxw:800px;
     --font-sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
   }
@@ -36,993 +31,139 @@
   html{scroll-behavior:smooth;}
   body{margin:0;font-family:var(--font-sans);color:var(--gray-100);background:var(--white);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
 
-  /* ---------- Top bar ---------- */
-  .topbar{position:fixed;top:0;left:0;right:0;height:56px;z-index:50;background:var(--gray-100);color:var(--white);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #000;}
-  .topbar .brand{display:flex;align-items:center;gap:12px;font-weight:600;letter-spacing:-0.01em;font-size:15px;}
-  .topbar .brand .tag{color:var(--gray-30);font-weight:400;}
-  .topbar .brand .dot{width:10px;height:10px;background:var(--blue-60);display:inline-block;}
-  .os-switch{display:flex;align-items:center;gap:0;border:1px solid var(--gray-70);}
-  .os-switch button{font-family:var(--font-sans);font-size:13px;font-weight:500;background:transparent;color:var(--gray-30);border:none;padding:7px 14px;cursor:pointer;border-right:1px solid var(--gray-70);transition:background .12s,color .12s;}
-  .os-switch button:last-child{border-right:none;}
-  .os-switch button:hover{background:#2a2a2a;color:var(--white);}
-  .os-switch button.active{background:var(--blue-60);color:var(--white);}
-  .os-switch .label{font-size:11px;color:var(--gray-50);padding:0 10px 0 0;text-transform:uppercase;letter-spacing:.08em;}
+  .topbar{position:sticky;top:0;height:56px;z-index:50;background:var(--gray-100);color:var(--white);display:flex;align-items:center;gap:12px;padding:0 24px;font-weight:600;font-size:15px;}
+  .topbar .dot{width:10px;height:10px;background:var(--blue-60);display:inline-block;}
+  .topbar .tag{color:var(--gray-30);font-weight:400;font-size:13px;}
 
-  /* ---------- Layout ---------- */
-  .layout{display:flex;padding-top:56px;}
-  .sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:var(--gray-10);border-right:1px solid var(--gray-20);overflow-y:auto;padding:28px 0 60px;}
-  .sidebar h2{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-70);margin:0 24px 12px;font-weight:600;}
-  .nav a{display:flex;gap:12px;align-items:baseline;text-decoration:none;color:var(--gray-70);padding:7px 24px;font-size:14px;border-left:3px solid transparent;line-height:1.35;}
-  .nav a:hover{background:#eaeaea;color:var(--gray-100);}
-  .nav a.active{border-left-color:var(--blue-60);color:var(--gray-100);background:#e8eefc;font-weight:500;}
-  .nav a .n{font-family:var(--font-mono);font-size:12px;color:var(--gray-50);min-width:20px;}
-  .nav a.active .n{color:var(--blue-60);}
-  main{margin-left:var(--sidebar-w);flex:1;min-width:0;}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px 120px;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 32px 100px;}
 
-  /* ---------- Hero ---------- */
-  .hero{padding:72px 0 40px;border-bottom:1px solid var(--gray-20);margin-bottom:8px;}
-  .hero .eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--blue-60);letter-spacing:.04em;margin-bottom:18px;}
-  .hero h1{font-size:52px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 20px;font-weight:600;}
-  .hero p.lede{font-size:19px;color:var(--gray-70);max-width:620px;margin:0 0 28px;}
-  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
-  .chip{font-family:var(--font-mono);font-size:12px;background:var(--gray-10);border:1px solid var(--gray-20);padding:6px 12px;color:var(--gray-70);}
-  .chip b{color:var(--gray-100);font-weight:600;}
+  .hero{padding:72px 0 24px;text-align:center;}
+  .hero .eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--gray-50);letter-spacing:.06em;margin-bottom:18px;text-transform:uppercase;}
+  .hero h1{font-size:56px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 20px;font-weight:600;}
+  .hero p.lede{font-size:20px;color:var(--gray-70);max-width:660px;margin:0 auto 8px;}
 
-  /* ---------- Sections ---------- */
-  section{padding:52px 0;border-bottom:1px solid var(--gray-20);scroll-margin-top:72px;}
-  .sec-eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--blue-60);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
-  .sec-eyebrow .time{color:var(--gray-50);}
-  section h2{font-size:32px;letter-spacing:-0.02em;margin:0 0 12px;font-weight:600;line-height:1.1;}
-  section h3{font-size:18px;margin:34px 0 6px;font-weight:600;letter-spacing:-0.01em;}
-  .intro{font-size:17px;color:var(--gray-70);margin:0 0 8px;max-width:640px;}
-  section p{margin:0 0 14px;}
-  section ul,section ol{margin:0 0 14px;padding-left:22px;}
-  section li{margin-bottom:7px;}
-  a.inline{color:var(--blue-60);text-decoration:none;border-bottom:1px solid var(--gray-30);}
-  a.inline:hover{border-bottom-color:var(--blue-60);}
-  code.ic{font-family:var(--font-mono);font-size:.86em;background:var(--gray-10);border:1px solid var(--gray-20);padding:1px 6px;white-space:nowrap;}
-  kbd{font-family:var(--font-mono);font-size:.8em;background:var(--white);border:1px solid var(--gray-30);border-bottom-width:2px;padding:1px 6px;white-space:nowrap;}
+  .pickline{text-align:center;font-size:15px;color:var(--gray-70);margin:28px 0 10px;font-weight:500;}
 
-  /* ---------- STEP SPINE ---------- */
-  .steps{list-style:none;margin:26px 0 8px;padding:0;position:relative;}
-  .step{position:relative;padding:0 0 26px 56px;}
-  /* connector line */
-  .step::before{content:"";position:absolute;left:16px;top:6px;bottom:-6px;width:2px;background:var(--gray-20);}
-  .step:last-child::before{display:none;}
-  .step .badge{position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--blue-60);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:15px;z-index:1;}
-  .step .stitle{font-weight:600;font-size:16.5px;margin:4px 0 6px;letter-spacing:-0.01em;}
-  .step p{margin:0 0 10px;}
-  .step ul{margin:6px 0 10px;}
-  /* final checkpoint step */
-  .step.done::before{background:var(--green-50);}
-  .step.done .badge{background:var(--green-50);font-size:17px;}
-  .step.done .stitle{color:var(--green-60);}
+  .paths{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:24px 0 8px;}
+  .path{position:relative;border:1px solid var(--gray-20);background:var(--white);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s,border-color .15s;overflow:hidden;}
+  .path:hover{box-shadow:0 12px 30px rgba(0,0,0,.10);transform:translateY(-3px);}
+  .path .top{padding:26px 26px 20px;border-top:5px solid;}
+  .path .badge{font-family:var(--font-mono);font-size:12px;font-weight:600;color:#fff;padding:4px 11px;letter-spacing:.05em;display:inline-block;margin-bottom:16px;}
+  .path h2{font-size:26px;letter-spacing:-0.02em;margin:0 0 8px;font-weight:600;line-height:1.1;}
+  .path .sub{font-size:15px;color:var(--gray-70);margin:0;}
+  .path .body{padding:4px 26px 22px;flex:1;}
+  .path .meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;}
+  .path .chip{font-family:var(--font-mono);font-size:11px;background:var(--gray-10);border:1px solid var(--gray-20);padding:5px 10px;color:var(--gray-70);}
+  .path ul{list-style:none;margin:0;padding:0;}
+  .path li{font-size:14.5px;color:var(--gray-70);padding:6px 0 6px 26px;position:relative;border-top:1px solid var(--gray-10);}
+  .path li::before{content:"";position:absolute;left:2px;top:13px;width:9px;height:9px;}
+  .path .go{margin:0;padding:16px 26px;border-top:1px solid var(--gray-20);font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:space-between;}
+  .path .go .arw{font-family:var(--font-mono);}
 
-  /* ---------- Code blocks ---------- */
-  .cmd{position:relative;background:var(--gray-100);margin:10px 0;border-left:3px solid var(--blue-60);}
-  .cmd pre{margin:0;padding:15px 52px 15px 18px;overflow-x:auto;}
-  .cmd code{font-family:var(--font-mono);font-size:13.5px;color:#f4f4f4;line-height:1.7;white-space:pre;}
-  .cmd .copy{position:absolute;top:8px;right:8px;background:#2a2a2a;color:#c6c6c6;border:1px solid #525252;font-family:var(--font-sans);font-size:11px;padding:5px 9px;cursor:pointer;letter-spacing:.03em;}
-  .cmd .copy:hover{background:#393939;color:#fff;}
-  .cmd .copy.done{background:var(--green-60);color:#fff;border-color:var(--green-60);}
-  .filelabel{font-family:var(--font-mono);font-size:12px;color:var(--gray-70);background:var(--gray-10);border:1px solid var(--gray-20);border-bottom:none;padding:6px 12px;display:inline-block;margin-top:8px;}
-  .filelabel + .cmd{margin-top:0;}
-  .runline{font-size:13px;color:var(--gray-50);margin:2px 0 4px;}
+  /* Path A = teal */
+  .path.a .top{border-top-color:var(--teal-60);}
+  .path.a .badge{background:var(--teal-60);}
+  .path.a li::before{background:var(--teal-60);}
+  .path.a .go{color:var(--teal-70);background:var(--teal-10);}
+  .path.a:hover{border-color:var(--teal-60);}
 
-  /* ---------- Inline critical note (stays visible) ---------- */
-  .note{border-left:3px solid var(--yellow-20);background:var(--yellow-bg);padding:11px 15px;margin:10px 0;font-size:14.5px;}
-  .note .nt{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#8e6a00;margin-bottom:3px;}
-  .note.must{border-left-color:var(--red-60);background:var(--red-10);}
-  .note.must .nt{color:var(--red-60);}
-  .note p:last-child{margin-bottom:0;}
+  /* Path B = blue */
+  .path.b .top{border-top-color:var(--blue-60);}
+  .path.b .badge{background:var(--blue-60);}
+  .path.b li::before{background:var(--blue-60);}
+  .path.b .go{color:var(--blue-70);background:var(--blue-10);}
+  .path.b:hover{border-color:var(--blue-60);}
 
-  /* ---------- Collapsible "only if it breaks" ---------- */
-  details.fix{border:1px solid var(--gray-20);background:var(--white);margin:10px 0;}
-  details.fix > summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:14px;font-weight:500;color:var(--gray-70);display:flex;align-items:center;gap:9px;user-select:none;}
-  details.fix > summary::-webkit-details-marker{display:none;}
-  details.fix > summary .caret{font-family:var(--font-mono);color:var(--gray-50);transition:transform .15s;font-size:12px;}
-  details.fix[open] > summary .caret{transform:rotate(90deg);}
-  details.fix > summary .wtag{font-family:var(--font-mono);font-size:11px;color:#8e6a00;background:var(--yellow-bg);border:1px solid var(--yellow-20);padding:1px 7px;letter-spacing:.03em;}
-  details.fix .fixbody{padding:2px 16px 14px 39px;font-size:14.5px;color:var(--gray-70);}
-  details.fix .fixbody p{margin:0 0 10px;}
-  details.tip-d{border-color:var(--blue-10);}
-  details.tip-d > summary .wtag{color:var(--blue-70);background:var(--blue-10);border-color:#c9ddff;}
+  .helprow{margin-top:36px;border:1px solid var(--gray-20);background:var(--gray-10);padding:20px 24px;}
+  .helprow h3{margin:0 0 6px;font-size:16px;}
+  .helprow p{margin:0;color:var(--gray-70);font-size:14.5px;}
+  .helprow b.a{color:var(--teal-70);}
+  .helprow b.b{color:var(--blue-70);}
 
-  /* generic callout (welcome/tips) */
-  .callout{border-left:3px solid var(--gray-30);background:var(--gray-10);padding:14px 18px;margin:16px 0;font-size:15px;}
-  .callout .ct{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
-  .callout p:last-child{margin-bottom:0;}
-  .callout.tip{border-left-color:var(--blue-60);background:var(--blue-10);}
-  .callout.tip .ct{color:var(--blue-70);}
+  footer{color:var(--gray-50);font-size:13px;padding:36px 0 10px;text-align:center;}
 
-  /* concept cards */
-  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0;}
-  .card{border:1px solid var(--gray-20);padding:18px;background:var(--white);}
-  .card .cn{font-family:var(--font-mono);font-size:12px;color:var(--blue-60);margin-bottom:8px;}
-  .card h4{margin:0 0 6px;font-size:15px;}
-  .card p{font-size:13.5px;color:var(--gray-70);margin:0;}
-
-  /* OS-specific blocks */
-  .os-block{display:none;}
-  html[data-os="mac"] .os-block[data-os="mac"]{display:block;}
-  html[data-os="win"] .os-block[data-os="win"]{display:block;}
-  html[data-os="linux"] .os-block[data-os="linux"]{display:block;}
-  /* inline OS-specific fragment (mid-sentence) */
-  .osi{display:none;}
-  html[data-os="mac"] .osi[data-os="mac"]{display:inline;}
-  html[data-os="win"] .osi[data-os="win"]{display:inline;}
-  html[data-os="linux"] .osi[data-os="linux"]{display:inline;}
-  .os-flag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-50);margin:0 0 4px;display:flex;align-items:center;gap:7px;}
-  .os-flag::before{content:"";width:8px;height:8px;background:var(--blue-60);display:inline-block;}
-
-  footer{color:var(--gray-50);font-size:13px;padding:32px 0 10px;}
-  .mobile-only{display:none;}
-  #menuBtn{display:none;}
-
-  @media (max-width:960px){
-    .sidebar{transform:translateX(-100%);transition:transform .2s;z-index:40;box-shadow:2px 0 12px rgba(0,0,0,.1);}
-    .sidebar.open{transform:translateX(0);}
-    main{margin-left:0;}
-    #menuBtn{display:inline-flex;background:transparent;border:1px solid var(--gray-70);color:#fff;font-family:var(--font-sans);font-size:13px;padding:6px 12px;cursor:pointer;}
-    .cards{grid-template-columns:1fr;}
-    .hero h1{font-size:38px;}
-    .os-switch button{padding:7px 10px;}
-    .os-switch .label{display:none;}
+  @media (max-width:800px){
+    .paths{grid-template-columns:1fr;}
+    .hero h1{font-size:40px;}
   }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="brand">
-    <button id="menuBtn" aria-label="Toggle navigation">Menu</button>
-    <span class="dot"></span>
-    <span>Build an Agent</span>
-    <span class="tag">· watsonx Orchestrate + IBM Bob</span>
-  </div>
-  <div class="os-switch" role="tablist" aria-label="Choose your operating system">
-    <span class="label">Your OS</span>
-    <button data-set="mac" role="tab">macOS</button>
-    <button data-set="win" role="tab">Windows</button>
-    <button data-set="linux" role="tab">Linux</button>
-  </div>
+  <span class="dot"></span>
+  <span>Build an Agent</span>
+  <span class="tag">· watsonx Orchestrate workshop</span>
 </div>
 
-<div class="layout">
-  <aside class="sidebar" id="sidebar">
-    <h2>Workshop steps</h2>
-    <nav class="nav" id="nav">
-      <a href="#start"><span class="n">00</span><span>Welcome &amp; what you'll build</span></a>
-      <a href="#python"><span class="n">01</span><span>Install Python</span></a>
-      <a href="#bob"><span class="n">02</span><span>Install IBM Bob</span></a>
-      <a href="#folder"><span class="n">03</span><span>Set up your project</span></a>
-      <a href="#venv"><span class="n">04</span><span>Create a virtual environment</span></a>
-      <a href="#adk"><span class="n">05</span><span>Install the ADK</span></a>
-      <a href="#connect"><span class="n">06</span><span>Connect to Orchestrate</span></a>
-      <a href="#concept"><span class="n">07</span><span>How an agent works</span></a>
-      <a href="#tools"><span class="n">08</span><span>Build the tools</span></a>
-      <a href="#agent"><span class="n">09</span><span>Build the agent</span></a>
-      <a href="#test"><span class="n">10</span><span>Test your agent</span></a>
-      <a href="#next"><span class="n">11</span><span>Wrap-up &amp; what's next</span></a>
-      <a href="#troubleshooting"><span class="n">▸</span><span>Troubleshooting</span></a>
-    </nav>
-  </aside>
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Hands-on lab</div>
+    <h1>Build your first AI agent.</h1>
+    <p class="lede">You'll build a working event-planning agent in watsonx Orchestrate. There are two ways to do it — pick the one that fits you. Both end with a live agent you can chat with.</p>
+  </div>
 
-  <main>
-  <div class="wrap">
+  <div class="pickline">Choose your path — you only need to do one.</div>
 
-    <!-- HERO -->
-    <div class="hero" id="start">
-      <div class="eyebrow">HANDS-ON LAB · ~2 HOURS</div>
-      <h1>Build your first AI agent.</h1>
-      <p class="lede">From an empty laptop to a working event-planning agent — you'll install everything, write three tools, and watch an AI decide when to use them. No experience needed. We'll go one small step at a time.</p>
-      <div class="meta-row">
-        <span class="chip"><b>Tool:</b> watsonx Orchestrate ADK</span>
-        <span class="chip"><b>IDE:</b> IBM Bob</span>
-        <span class="chip"><b>You'll build:</b> an Event Planner agent</span>
+  <div class="paths">
+
+    <!-- PATH A -->
+    <a class="path a" href="index-webui.html">
+      <div class="top">
+        <span class="badge">PATH A</span>
+        <h2>No-code Web UI</h2>
+        <p class="sub">Build it entirely in your web browser. No installs, no code.</p>
       </div>
-      <div class="callout tip">
-        <div class="ct">Do this first</div>
-        <p>Pick your operating system in the top-right (<b>macOS</b>, <b>Windows</b>, or <b>Linux</b>). Every command on this page updates to match, so you'll only ever see the steps that apply to you.</p>
-      </div>
-
-      <h3>How to read this guide</h3>
-      <p>Every section is a numbered checklist. Do the blue numbered steps in order — that's the whole path. You'll finish each section on a <b style="color:var(--green-60)">green ✓ checkpoint</b> that tells you exactly what "done" looks like.</p>
-      <p>Sometimes you'll see a grey <b>“⚠ Only if…”</b> bar. That's a fix for a problem you probably <i>won't</i> hit. Ignore it unless it describes what's happening on your screen — then click it to expand.</p>
-
-      <h3>What you need</h3>
-      <ul>
-        <li>A laptop you can install software on, and internet.</li>
-        <li>An <b>IBM ID</b> (your instructor will confirm how to sign in to Bob).</li>
-        <li>A watsonx Orchestrate <b>API key + URL</b> — your instructor hands these out in Step 6. You don't make your own.</li>
-      </ul>
-      <div class="callout tip">
-        <div class="ct">Stuck? That's normal</div>
-        <p>Raise a hand — 5 helpers are walking the room. And once Bob is installed, you can ask <b>Bob itself</b> for help right inside the app.</p>
-      </div>
-    </div>
-
-    <!-- 01 PYTHON -->
-    <section id="python">
-      <div class="sec-eyebrow">STEP 01 <span class="time">· ~15 min</span></div>
-      <h2>Install Python</h2>
-      <p class="intro">Python is the programming language our agent toolkit is built on, so it has to go on your computer first. We want version <b>3.12</b>. Follow the numbered steps — we'll even check whether you already have it.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Open your terminal</div>
-          <p>The terminal is a window where you type commands. Here's how to open it:</p>
-          <div class="os-block" data-os="mac"><div class="os-flag">macOS</div>
-            <p>Press <kbd>Cmd</kbd>+<kbd>Space</kbd>, type <b>Terminal</b>, and press <kbd>Enter</kbd>. A small window opens — that's it.</p>
-          </div>
-          <div class="os-block" data-os="win"><div class="os-flag">Windows</div>
-            <p>Click the <b>Start</b> menu, type <b>PowerShell</b>, and click <b>Windows PowerShell</b>. A blue window opens — that's your terminal.</p>
-          </div>
-          <div class="os-block" data-os="linux"><div class="os-flag">Linux</div>
-            <p>Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>, or open the <b>Terminal</b> app from your applications.</p>
-          </div>
-        </li>
-
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Check if you already have Python</div>
-          <p>Type this into the terminal and press <kbd>Enter</kbd>:</p>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
-          <div class="os-block" data-os="win"><div class="cmd"><pre><code>python --version</code></pre></div></div>
-          <p>If it prints <code class="ic">Python 3.11</code>, <code class="ic">3.12</code>, or <code class="ic">3.13</code> (any of those), you're already done — <b>skip to Step 02, Install IBM Bob</b>. If you get an error or an older version, keep going.</p>
-        </li>
-
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Download Python 3.12</div>
-          <div class="os-block" data-os="mac"><div class="os-flag">macOS</div>
-            <p>Go to <a class="inline" href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> and click the big yellow <b>“Download Python 3.12”</b> button at the top. It saves a <code class="ic">.pkg</code> file to your Downloads.</p>
-          </div>
-          <div class="os-block" data-os="win"><div class="os-flag">Windows</div>
-            <p>Go to <a class="inline" href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> and click the big yellow <b>“Download Python 3.12”</b> button at the top. It saves a <code class="ic">.exe</code> file to your Downloads.</p>
-          </div>
-          <div class="os-block" data-os="linux"><div class="os-flag">Linux (Ubuntu / Debian)</div>
-            <p>You'll install from the terminal instead of a website. Run these two commands:</p>
-            <div class="cmd"><pre><code>sudo apt update
-sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
-            <p>Type your password if asked (you won't see it as you type — that's normal), then press <kbd>Enter</kbd>. On Fedora, use <code class="ic">sudo dnf install python3.12</code> instead. <b>Then skip to the ✓ checkpoint below.</b></p>
-          </div>
-        </li>
-
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Run the installer</div>
-          <div class="os-block" data-os="mac"><div class="os-flag">macOS</div>
-            <p>Open the downloaded <code class="ic">.pkg</code> file. Click <b>Continue</b> a few times, then <b>Agree</b>, then <b>Install</b>. Enter your Mac password when asked, and wait for “The installation was successful.” Click <b>Close</b>.</p>
-          </div>
-          <div class="os-block" data-os="win"><div class="os-flag">Windows</div>
-            <p>Open the downloaded <code class="ic">.exe</code> file. The installer window appears.</p>
-            <div class="note must">
-              <div class="nt">Don't skip this checkbox</div>
-              <p>At the bottom of the very first screen, tick <b>“Add python.exe to PATH”</b>. This one checkbox prevents the most common problem people hit. Then click <b>Install Now</b> and wait for it to finish.</p>
-            </div>
-          </div>
-          <div class="os-block" data-os="linux"><div class="os-flag">Linux</div>
-            <p>Nothing to do here — the commands in Step 3 already installed Python. Continue to the checkpoint.</p>
-          </div>
-        </li>
-
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — Python is installed</div>
-          <p>Open a <b>brand-new</b> terminal window (close the old one first — this makes your computer notice the change) and run the version command again:</p>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
-          <div class="os-block" data-os="win"><div class="cmd"><pre><code>python --version</code></pre></div></div>
-          <p>You should see <b>Python 3.11, 3.12, or 3.13</b>. If you do — you're ready for the next step.</p>
-        </li>
-      </ol>
-
-      <div class="os-block" data-os="win">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> typing <code class="ic">python</code> opens the Microsoft Store</summary>
-          <div class="fixbody">
-            <p>Windows sometimes ships a placeholder that hijacks the command. Turn it off: open <b>Settings → Apps → Advanced app settings → App execution aliases</b>, then toggle <b>off</b> the two entries named <b>python.exe</b> and <b>python3.exe</b>. Open a new terminal and try the version command again.</p>
-          </div>
-        </details>
-      </div>
-      <div class="os-block" data-os="mac">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the version command still fails after installing</summary>
-          <div class="fixbody">
-            <p>Make sure you opened a <b>new</b> terminal window after installing. If it still fails, the installer includes an “Install Certificates” and “Update Shell Profile” script in <b>Applications → Python 3.12</b> — double-click <b>Update Shell Profile.command</b>, then open a new terminal.</p>
-          </div>
-        </details>
-      </div>
-    </section>
-
-    <!-- 02 BOB -->
-    <section id="bob">
-      <div class="sec-eyebrow">STEP 02 <span class="time">· ~15 min</span></div>
-      <h2>Install IBM Bob</h2>
-      <p class="intro">Bob is IBM's AI-powered code editor. It's where you'll write files, run commands, and get an AI assistant that can help you as you go. Download it from <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a>.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Download Bob</div>
-          <div class="os-block" data-os="mac"><div class="os-flag">macOS</div><p>On <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a>, choose the <b>macOS</b> download. It saves a <code class="ic">.dmg</code> file.</p></div>
-          <div class="os-block" data-os="win"><div class="os-flag">Windows</div><p>On <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a>, choose the <b>Windows</b> download. It saves an <code class="ic">.exe</code> installer.</p></div>
-          <div class="os-block" data-os="linux"><div class="os-flag">Linux</div><p>On <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a>, choose the <b>Linux</b> download (<code class="ic">.deb</code> or AppImage).</p></div>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Install and open it</div>
-          <div class="os-block" data-os="mac"><div class="os-flag">macOS</div><p>Open the <code class="ic">.dmg</code>, then drag the <b>Bob</b> icon onto the <b>Applications</b> folder shown in the window. Open Bob from Applications. If macOS warns you, right-click the app and choose <b>Open</b>.</p></div>
-          <div class="os-block" data-os="win"><div class="os-flag">Windows</div><p>Run the <code class="ic">.exe</code> and click through the installer. When it finishes, open <b>Bob</b> from the Start menu.</p></div>
-          <div class="os-block" data-os="linux"><div class="os-flag">Linux</div><p>For a <code class="ic">.deb</code>: run <code class="ic">sudo dpkg -i &lt;file&gt;.deb</code>. For an AppImage: right-click → Properties → allow executing, then double-click it.</p></div>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Sign in with your IBM ID</div>
-          <p>When Bob opens, sign in with your <b>IBM ID</b>. You must be signed in for Bob's AI features to work. Your instructor will confirm which account to use.</p>
-        </li>
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Find the 3 things you'll use all workshop</div>
-          <ul>
-            <li><b>Chat panel</b> — where you talk to Bob, your AI helper.</li>
-            <li><b>Terminal</b> — open it from the menu: <b>Terminal → New Terminal</b>. This is where you'll run commands from now on.</li>
-            <li><b>Command Palette</b> — press <span class="osi" data-os="mac"><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span><span class="osi" data-os="win"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span><span class="osi" data-os="linux"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>. It lets you run any built-in command by typing its name.</li>
-          </ul>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — Bob is ready</div>
-          <p>Bob is open, you're signed in with your IBM ID, and you can open a terminal with <b>Terminal → New Terminal</b>.</p>
-        </li>
-      </ol>
-
-      <div class="callout tip">
-        <div class="ct">How you'll work with Bob</div>
-        <p>You'll split the work two ways, and it's worth knowing why:</p>
-        <p><b>Bob writes your files.</b> When you need a file — a tool, the agent, a config file — just describe it in Bob's chat and let Bob create it for you. That's the whole point of an AI editor: you shouldn't type code from scratch.</p>
-        <p><b>You run the commands yourself</b> in Bob's terminal (installing, connecting, testing). Bob runs code in its own protected <b>sandbox</b>, so anything that changes your computer's setup or logs you in has to be run by <i>you</i> in the terminal to actually take effect. We'll point out which is which as we go.</p>
-      </div>
-    </section>
-
-    <!-- 03 FOLDER -->
-    <section id="folder">
-      <div class="sec-eyebrow">STEP 03 <span class="time">· ~5 min</span></div>
-      <h2>Set up your project folder</h2>
-      <p class="intro">Everything you build lives in one folder. Let's create it and open it in Bob. From here on, run commands in <b>Bob's</b> terminal (<b>Terminal → New Terminal</b>).</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Create the folder and go into it</div>
-          <p>In Bob's terminal, type these two commands (press <kbd>Enter</kbd> after each):</p>
-          <div class="cmd"><pre><code>mkdir event-planner-ws
-cd event-planner-ws</code></pre></div>
-          <div class="note must">
-            <div class="nt">Use no spaces in the name</div>
-            <p>Stick with hyphens like <code class="ic">event-planner-ws</code>. A folder name with spaces will break the toolkit later.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Open the folder in Bob</div>
-          <p>Click <b>File → Open Folder</b>, select your new <b>event-planner-ws</b> folder, and click <b>Open</b>. If Bob asks, click <b>Yes, I trust the authors</b>.</p>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — project is open</div>
-          <p>The empty <b>event-planner-ws</b> folder is open in Bob and shows in the left-hand file panel.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- 04 VENV -->
-    <section id="venv">
-      <div class="sec-eyebrow">STEP 04 <span class="time">· ~10 min</span></div>
-      <h2>Create a virtual environment</h2>
-      <p class="intro">A virtual environment is a private sandbox for this project's Python packages, so what we install here never messes with anything else on your computer. We'll make one called <code class="ic">.venv</code> — it's just two commands.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Create the sandbox</div>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python3 -m venv .venv</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python3 -m venv .venv</code></pre></div></div>
-          <div class="os-block" data-os="win"><div class="cmd"><pre><code>python -m venv .venv</code></pre></div></div>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Turn it on (activate it)</div>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>source .venv/bin/activate</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>source .venv/bin/activate</code></pre></div></div>
-          <div class="os-block" data-os="win"><div class="cmd"><pre><code>.venv\Scripts\Activate.ps1</code></pre></div></div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — sandbox active</div>
-          <p>Your terminal prompt now starts with <code class="ic">(.venv)</code>. That means the sandbox is on. Every new terminal you open in Bob will turn it on automatically.</p>
-        </li>
-      </ol>
-
-      <div class="os-block" data-os="win">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> PowerShell says running scripts is disabled</summary>
-          <div class="fixbody">
-            <p>Run this command once, then try the activate command from Step 2 again:</p>
-            <div class="cmd"><pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre></div>
-          </div>
-        </details>
-      </div>
-      <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Shortcut</span> let Bob create the environment for you</summary>
-        <div class="fixbody">
-          <p>Instead of the terminal, you can open the Command Palette (<span class="osi" data-os="mac"><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span><span class="osi" data-os="win"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span><span class="osi" data-os="linux"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>), type <b>“Python: Create Environment”</b>, choose <b>Venv</b>, and pick your <b>Python 3.12</b>. Bob builds and activates <code class="ic">.venv</code> for you.</p>
+      <div class="body">
+        <div class="meta">
+          <span class="chip">~60 min</span>
+          <span class="chip">browser only</span>
+          <span class="chip">easiest start</span>
         </div>
-      </details>
-    </section>
-
-    <!-- 05 ADK -->
-    <section id="adk">
-      <div class="sec-eyebrow">STEP 05 <span class="time">· ~15 min</span></div>
-      <h2>Install the watsonx Orchestrate ADK</h2>
-      <p class="intro">The <b>Agent Development Kit (ADK)</b> is the toolkit for building and testing agents. It installs as a Python package and gives you a command called <code class="ic">orchestrate</code>. Make sure you see <code class="ic">(.venv)</code> in your prompt first.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Install it with pip</div>
-          <div class="cmd"><pre><code>pip install ibm-watsonx-orchestrate</code></pre></div>
-          <p class="runline">This downloads a fair bit — give it a minute or two. Lots of text scrolling by is normal.</p>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Confirm it installed</div>
-          <div class="cmd"><pre><code>orchestrate --version</code></pre></div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — ADK is installed</div>
-          <p>A version number prints (for example <code class="ic">1.x.x</code>). The <code class="ic">orchestrate</code> command now works.</p>
-        </li>
-      </ol>
-
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you see <code class="ic">orchestrate: command not found</code></summary>
-        <div class="fixbody">
-          <p>Your sandbox probably isn't on. Open a <b>new</b> terminal in Bob (it turns <code class="ic">.venv</code> on automatically) — check the prompt shows <code class="ic">(.venv)</code> — then run the version command again.</p>
-        </div>
-      </details>
-    </section>
-
-    <!-- 06 CONNECT -->
-    <section id="connect">
-      <div class="sec-eyebrow">STEP 06 <span class="time">· ~10 min</span></div>
-      <h2>Connect to watsonx Orchestrate</h2>
-      <p class="intro">Your agent runs on a watsonx Orchestrate instance in the cloud. To reach it, the toolkit needs two things your <b>instructor gives you now</b>: an <b>API URL</b> and an <b>API key</b>. Instead of pasting your key into every command, you'll store both in a small <code class="ic">.env</code> file once and point the commands at it.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Get your URL and key from the instructor</div>
-          <p>Grab the <b>API URL</b> and <b>API key</b> your instructor is handing out. Keep them handy for the next step.</p>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Ask Bob to create a <code class="ic">.env</code> file</div>
-          <p>In Bob's <b>chat</b>, paste this (fill in the two values first):</p>
-          <div class="cmd"><pre><code>Create a file called .env in my project root with exactly these two lines:
-WXO_URL=&lt;paste the instructor URL here&gt;
-WXO_API_KEY=&lt;paste the instructor key here&gt;</code></pre></div>
-          <p>Bob creates the file for you. Open it from the file panel to double-check your two values look right.</p>
-          <div class="note">
-            <div class="nt">Prefer to do it by hand?</div>
-            <p>Right-click your project → <b>New File</b>, name it <code class="ic">.env</code>, and type the two <code class="ic">WXO_URL=…</code> / <code class="ic">WXO_API_KEY=…</code> lines yourself. Either way works.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Load the file, then register + connect</div>
-          <p>Run these in <b>your terminal</b> (this part is yours, not Bob's). The first line reads your <code class="ic">.env</code>; the next two use those values without ever showing your key on screen:</p>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>source .env
-orchestrate env add --name workshop --url "$WXO_URL" --type ibm_iam
-orchestrate env activate workshop --api-key "$WXO_API_KEY"</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>source .env
-orchestrate env add --name workshop --url "$WXO_URL" --type ibm_iam
-orchestrate env activate workshop --api-key "$WXO_API_KEY"</code></pre></div></div>
-          <div class="os-block" data-os="win">
-            <p>PowerShell loads the file a little differently. Run this once to read your <code class="ic">.env</code>:</p>
-            <div class="cmd"><pre><code>Get-Content .env | ForEach-Object { if ($_ -match '^\s*([^#=]+)=(.*)$') { Set-Item "env:$($matches[1].Trim())" $matches[2].Trim() } }</code></pre></div>
-            <p>Then register and connect:</p>
-            <div class="cmd"><pre><code>orchestrate env add --name workshop --url "$env:WXO_URL" --type ibm_iam
-orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div>
-          </div>
-        </li>
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Test the connection</div>
-          <p>This lists the agents on the instance. A short or empty list is fine — it just means you're connected.</p>
-          <div class="cmd"><pre><code>orchestrate agents list</code></pre></div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — you're connected</div>
-          <p>You saw <code class="ic">Environment 'workshop' is now active</code>, and <code class="ic">orchestrate agents list</code> ran without an authentication error.</p>
-        </li>
-      </ol>
-
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> commands start failing an hour or two later</summary>
-        <div class="fixbody">
-          <p>The connection expires after about 2 hours. Because your key is saved in <code class="ic">.env</code>, reconnecting is quick — re-run the load + activate lines from Step 3:</p>
-          <div class="os-block" data-os="mac"><div class="cmd"><pre><code>source .env
-orchestrate env activate workshop --api-key "$WXO_API_KEY"</code></pre></div></div>
-          <div class="os-block" data-os="linux"><div class="cmd"><pre><code>source .env
-orchestrate env activate workshop --api-key "$WXO_API_KEY"</code></pre></div></div>
-          <div class="os-block" data-os="win"><div class="cmd"><pre><code>Get-Content .env | ForEach-Object { if ($_ -match '^\s*([^#=]+)=(.*)$') { Set-Item "env:$($matches[1].Trim())" $matches[2].Trim() } }
-orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div></div>
-        </div>
-      </details>
-    </section>
-
-    <!-- 07 CONCEPT -->
-    <section id="concept">
-      <div class="sec-eyebrow">STEP 07 <span class="time">· ~5 min</span></div>
-      <h2>How an agent works</h2>
-      <p class="intro">Quick breather — no typing here. Here's the whole idea in one sentence: <b>an agent is a language model, plus instructions on how to behave, plus a set of tools it's allowed to use.</b></p>
-      <p>The part that surprises people: you never write “if the user asks about budget, call the budget tool.” You just describe each tool in plain English, and the model decides on its own when to call which one. That's what you're about to see.</p>
-      <h3>Meet the Event Planner</h3>
-      <p>We're building an assistant that helps plan any kind of event. It gets three tools:</p>
-      <div class="cards">
-        <div class="card"><div class="cn">tool 01</div><h4>Estimate budget</h4><p>Given a guest count and event type, returns a cost breakdown.</p></div>
-        <div class="card"><div class="cn">tool 02</div><h4>Suggest venues</h4><p>Given a city, guest count, and budget, returns venues that fit.</p></div>
-        <div class="card"><div class="cn">tool 03</div><h4>Manage guest list</h4><p>Adds or removes people and keeps a running headcount.</p></div>
+        <ul>
+          <li>Nothing to install — just log in to a website.</li>
+          <li>Shape your agent in plain English.</li>
+          <li>Test, deploy, and chat — all in the browser.</li>
+          <li>Best if you've never coded, or just want the fastest path.</li>
+        </ul>
       </div>
-      <p>Each tool is just a small Python function with a clear description. Let's write them.</p>
-    </section>
+      <div class="go"><span>Start Path A</span><span class="arw">→</span></div>
+    </a>
 
-    <!-- 08 TOOLS -->
-    <section id="tools">
-      <div class="sec-eyebrow">STEP 08 <span class="time">· ~20 min</span></div>
-      <h2>Build the tools</h2>
-      <p class="intro">Now the fun part — and here's where Bob earns its keep. Instead of typing three Python files by hand, you'll <b>describe the tools to Bob and let it write them</b>. The important idea to notice: each tool is a Python function with a plain-English docstring, and that description is what the AI reads to decide when to use the tool.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Ask Bob to build the three tools</div>
-          <p>Make sure Bob is in <b>Agent mode</b> (the mode picker sits at the top of the chat panel — Agent mode is the one allowed to create files). Then paste this into Bob's chat:</p>
-          <div class="cmd"><pre><code>Create a folder called tools in my project. Inside it, create three
-Python files for watsonx Orchestrate custom tools. In each file, import
-the decorator with:
-  from ibm_watsonx_orchestrate.agent_builder.tools import tool
-and decorate one function with @tool. Give each function a clear docstring
-saying when to use it and what its arguments are.
-
-1) estimate_event_budget.py -- estimate_event_budget(num_guests: int,
-   event_type: str) -> dict. Returns a cost breakdown (catering, drinks,
-   decorations, entertainment, and venue) plus an estimated total in USD,
-   using different per-guest costs for different event types.
-
-2) suggest_venues.py -- suggest_venues(city: str, num_guests: int,
-   max_budget: float) -> dict. Builds venue options from a small template
-   list, keeps only the ones that fit the guest count and budget, and
-   returns them cheapest first.
-
-3) update_guest_list.py -- update_guest_list(current_guests: list,
-   action: str, names: list) -> dict. Adds or removes names and returns the
-   updated list and total count. It must be stateless: the caller passes the
-   current list in every time.</code></pre></div>
-          <p>Bob creates the <code class="ic">tools</code> folder and the three files, showing you each change to approve. Approve them, and watch the files appear in the file panel on the left.</p>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Open each file and skim what Bob wrote</div>
-          <p>Click each file inside the <code class="ic">tools</code> folder. You're looking for the <code class="ic">@tool</code> line and a clear docstring — that's what turns a plain function into a tool the agent can use. If a file looks off (or an import fails later), expand the answer key below and paste the exact version in.</p>
-          <details class="fix tip-d">
-            <summary><span class="caret">▶</span><span class="wtag">💡 Answer key</span> the exact code, if you'd rather paste it in</summary>
-            <div class="fixbody">
-          <div class="filelabel">tools/estimate_event_budget.py</div>
-          <div class="cmd"><pre><code>from ibm_watsonx_orchestrate.agent_builder.tools import tool
-
-# Rough per-guest cost (USD) for each event type, by category.
-EVENT_COSTS = {
-    "birthday party":   {"catering": 25, "drinks": 10, "decorations": 8,  "entertainment": 12},
-    "team offsite":     {"catering": 40, "drinks": 12, "decorations": 5,  "entertainment": 20},
-    "wedding":          {"catering": 90, "drinks": 35, "decorations": 30, "entertainment": 45},
-    "conference":       {"catering": 35, "drinks": 8,  "decorations": 6,  "entertainment": 15},
-    "casual gathering": {"catering": 15, "drinks": 8,  "decorations": 4,  "entertainment": 5},
-}
-DEFAULT_COSTS = {"catering": 30, "drinks": 12, "decorations": 8, "entertainment": 15}
-
-
-@tool
-def estimate_event_budget(num_guests: int, event_type: str) -> dict:
-    """Estimate a cost breakdown for an event based on guest count and event type.
-
-    Use this tool whenever the user wants to know roughly how much an event
-    will cost, or gives a guest count and an event type.
-
-    Args:
-        num_guests: The number of people expected to attend.
-        event_type: The kind of event, for example "birthday party",
-            "team offsite", "wedding", "conference", or "casual gathering".
-
-    Returns:
-        A dictionary with per-category costs and the estimated total in USD.
-    """
-    per_guest = EVENT_COSTS.get(event_type.strip().lower(), DEFAULT_COSTS)
-    breakdown = {cat: cost * num_guests for cat, cost in per_guest.items()}
-    breakdown["venue"] = 300 + 15 * num_guests
-    return {
-        "event_type": event_type,
-        "num_guests": num_guests,
-        "breakdown_usd": breakdown,
-        "estimated_total_usd": sum(breakdown.values()),
-    }</code></pre></div>
-
-          <div class="filelabel">tools/suggest_venues.py</div>
-          <div class="cmd"><pre><code>from ibm_watsonx_orchestrate.agent_builder.tools import tool
-
-# A small catalog of venue "templates" adapted to whatever city is asked about.
-VENUE_TEMPLATES = [
-    {"suffix": "Community Hall",  "capacity": 40,  "price": 500,  "style": "simple and budget-friendly"},
-    {"suffix": "Rooftop Lounge",  "capacity": 60,  "price": 1500, "style": "trendy with skyline views"},
-    {"suffix": "Garden Pavilion", "capacity": 120, "price": 2500, "style": "outdoor and scenic"},
-    {"suffix": "Grand Ballroom",  "capacity": 300, "price": 6000, "style": "elegant and formal"},
-    {"suffix": "Co-working Loft", "capacity": 30,  "price": 800,  "style": "modern, great for teams"},
-]
-
-
-@tool
-def suggest_venues(city: str, num_guests: int, max_budget: float) -> dict:
-    """Suggest event venues in a city that fit the guest count and rental budget.
-
-    Use this tool when the user wants venue ideas and has told you the city,
-    roughly how many guests, and how much they can spend on the space.
-
-    Args:
-        city: The city to look for venues in.
-        num_guests: The number of guests the venue must hold.
-        max_budget: The maximum venue rental budget in USD.
-
-    Returns:
-        A dictionary with a list of matching venues, cheapest first.
-    """
-    matches = [
-        {
-            "name": f"The {city} {t['suffix']}",
-            "capacity": t["capacity"],
-            "price_usd": t["price"],
-            "style": t["style"],
-        }
-        for t in VENUE_TEMPLATES
-        if t["capacity"] &gt;= num_guests and t["price"] &lt;= max_budget
-    ]
-    matches.sort(key=lambda v: v["price_usd"])
-    if matches:
-        msg = f"Found {len(matches)} venue(s) in {city} for {num_guests} guests under ${max_budget:.0f}."
-    else:
-        msg = f"No venues in {city} fit {num_guests} guests under ${max_budget:.0f}. Try a higher budget."
-    return {"city": city, "message": msg, "venues": matches}</code></pre></div>
-
-          <div class="filelabel">tools/update_guest_list.py</div>
-          <div class="cmd"><pre><code>from ibm_watsonx_orchestrate.agent_builder.tools import tool
-
-
-@tool
-def update_guest_list(current_guests: list, action: str, names: list) -> dict:
-    """Add or remove names from an event guest list and return the updated list.
-
-    This tool does not remember anything between calls: pass the current guest
-    list in every time (use an empty list to start fresh). Use it whenever the
-    user wants to add guests, remove guests, or count the people on the list.
-
-    Args:
-        current_guests: The guest names already on the list. Pass [] to start.
-        action: What to do -- either "add" or "remove".
-        names: The guest names to add or remove.
-
-    Returns:
-        A dictionary with the updated guest list and the total guest count.
-    """
-    guests = list(current_guests)
-    action = action.strip().lower()
-    if action == "add":
-        for name in names:
-            if name not in guests:
-                guests.append(name)
-    elif action == "remove":
-        guests = [g for g in guests if g not in names]
-    else:
-        return {"error": f"Unknown action '{action}'. Use 'add' or 'remove'.",
-                "guest_list": guests, "total_guests": len(guests)}
-    return {"guest_list": guests, "total_guests": len(guests)}</code></pre></div>
-            </div>
-          </details>
-        </li>
-
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Upload the tools to Orchestrate</div>
-          <p>This part is yours, not Bob's — uploading connects to your instance, so run it in <b>the terminal</b>. Run these one at a time (press <kbd>Enter</kbd> after each and wait for it to finish):</p>
-          <div class="cmd"><pre><code>orchestrate tools import -k python -f tools/estimate_event_budget.py
-orchestrate tools import -k python -f tools/suggest_venues.py
-orchestrate tools import -k python -f tools/update_guest_list.py</code></pre></div>
-        </li>
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Check they all landed</div>
-          <div class="cmd"><pre><code>orchestrate tools list</code></pre></div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — three tools uploaded</div>
-          <p>All three — <code class="ic">estimate_event_budget</code>, <code class="ic">suggest_venues</code>, and <code class="ic">update_guest_list</code> — show up in the list.</p>
-        </li>
-      </ol>
-
-      <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> an import failed? Ask Bob</summary>
-        <div class="fixbody">
-          <p>Copy the red error text, paste it into Bob's chat, and ask: “This <code class="ic">orchestrate tools import</code> command failed with this error — what's wrong?” Bob can usually spot a typo or missing line.</p>
-        </div>
-      </details>
-    </section>
-
-    <!-- 09 AGENT -->
-    <section id="agent">
-      <div class="sec-eyebrow">STEP 09 <span class="time">· ~10 min</span></div>
-      <h2>Build the agent</h2>
-      <p class="intro">The agent itself is a single file. It names the model, gives the instructions, and lists the three tools it's allowed to use.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Ask Bob to build the agent</div>
-          <p>With Bob still in <b>Agent mode</b>, paste this into the chat:</p>
-          <div class="cmd"><pre><code>Create a file called event_planner.yaml in my project root. It should
-define a watsonx Orchestrate native agent (spec_version v1, kind native)
-named event_planner that uses the model
-watsonx/meta-llama/llama-3-3-70b-instruct and lists my three tools:
-estimate_event_budget, suggest_venues, and update_guest_list.
-
-Write instructions telling it to be a friendly event-planning assistant:
-use each tool appropriately, ask one short clarifying question when it is
-missing a city, guest count, budget, or event type, and always pass the
-full guest list back to update_guest_list so nothing is lost. Add a short
-welcome message and three starter prompts.</code></pre></div>
-          <p>Approve the change, then open the new <code class="ic">event_planner.yaml</code> to see what Bob wrote.</p>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Check the agent file</div>
-          <p>Skim it: the file names a model, lists your three tools, and gives instructions in plain English. That's the whole agent. If you'd rather drop in a known-good version, here it is:</p>
-          <details class="fix tip-d">
-            <summary><span class="caret">▶</span><span class="wtag">💡 Answer key</span> the exact <code class="ic">event_planner.yaml</code></summary>
-            <div class="fixbody">
-          <div class="filelabel">event_planner.yaml</div>
-          <div class="cmd"><pre><code>spec_version: v1
-kind: native
-name: event_planner
-description: &gt;
-  A friendly event-planning assistant that helps people plan gatherings.
-  It can estimate a budget, suggest venues that fit the guest count and
-  spend, and keep track of the guest list.
-llm: watsonx/meta-llama/llama-3-3-70b-instruct
-style: default
-instructions: &gt;
-  You are a warm, practical event-planning assistant. You help users plan
-  events such as birthday parties, team offsites, weddings, conferences,
-  and casual gatherings.
-
-  You have three tools:
-  - Use estimate_event_budget when the user wants to know how much an event
-    might cost. You need the number of guests and the type of event.
-  - Use suggest_venues when the user wants venue ideas. You need the city,
-    the number of guests, and the maximum venue budget.
-  - Use update_guest_list to add or remove people from the guest list.
-    Always pass back the full current guest list so nothing is lost.
-
-  If you are missing a detail a tool needs (city, guest count, budget, or
-  event type), ask one short clarifying question before calling the tool.
-  Keep your tone friendly and concise.
-tools:
-  - estimate_event_budget
-  - suggest_venues
-  - update_guest_list
-welcome_content:
-  welcome_message: "Hi! I'm your event planning assistant."
-  description: "I can estimate a budget, suggest venues, and manage your guest list."
-starter_prompts:
-  is_default_prompts: true
-  prompts:
-    - title: "Estimate a budget"
-      subtitle: "See what an event might cost"
-      prompt: "How much would a birthday party for 20 people cost?"
-    - title: "Find a venue"
-      subtitle: "Get venue ideas that fit your budget"
-      prompt: "Suggest a venue in Toronto for 50 guests under $2000."
-    - title: "Build a guest list"
-      subtitle: "Add people to your event"
-      prompt: "Start a guest list and add Sarah, Mike, and Priya."</code></pre></div>
-            </div>
-          </details>
-          <div class="note">
-            <div class="nt">Sharing one instance? Rename your agent</div>
-            <p>If everyone connects to the same Orchestrate instance, give your agent a unique <code class="ic">name:</code> — add your initials, e.g. <code class="ic">event_planner_js</code> — so you can find your own. Just tell Bob “rename the agent to event_planner_js,” or edit the <code class="ic">name:</code> line yourself. Use underscores, never dashes.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Upload the agent</div>
-          <p>Back in <b>the terminal</b> — this connects to your instance, so it's yours to run:</p>
-          <div class="cmd"><pre><code>orchestrate agents import -f event_planner.yaml</code></pre></div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — agent created</div>
-          <p>You see <code class="ic">Agent 'event_planner' imported successfully</code>, and it appears in <code class="ic">orchestrate agents list</code>.</p>
-        </li>
-      </ol>
-
-      <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Note</span> about the model line</summary>
-        <div class="fixbody">
-          <p>The <code class="ic">llm:</code> line sets which model powers the agent. Your instructor will confirm the exact model enabled on the workshop instance — if it's different, swap it in on that line and re-import.</p>
-        </div>
-      </details>
-    </section>
-
-    <!-- 10 TEST -->
-    <section id="test">
-      <div class="sec-eyebrow">STEP 10 <span class="time">· ~15 min</span></div>
-      <h2>Test your event planner</h2>
-      <p class="intro">Time to talk to what you built. This opens a chat with your agent right in the terminal.</p>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Start chatting</div>
-          <p>(Use your unique name here if you added initials in Step 09.)</p>
-          <div class="cmd"><pre><code>orchestrate chat ask --agent-name event_planner</code></pre></div>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Try a few messages</div>
-          <p>Type these in and watch which tool it decides to use each time:</p>
-          <ul>
-            <li>“How much would a wedding for 100 people cost?”</li>
-            <li>“Find me a venue in Ottawa for 40 guests under $1000.”</li>
-            <li>“Start a guest list with Alex and Jordan, then add Sam.”</li>
-          </ul>
-          <p>Type <code class="ic">exit</code> or press <kbd>Ctrl</kbd>+<kbd>C</kbd> to quit the chat.</p>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — you built an agent! 🎉</div>
-          <p>Your agent answers using the tools you wrote. That's a real, working AI agent.</p>
-        </li>
-      </ol>
-
-      <h3>Make it yours</h3>
-      <p>Change something in the <code class="ic">instructions</code> (for example, tell it to always suggest a theme), save the file, and re-import to see the new behavior:</p>
-      <div class="cmd"><pre><code>orchestrate agents import -f event_planner.yaml</code></pre></div>
-      <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> let Bob iterate with you</summary>
-        <div class="fixbody">
-          <p>Ask Bob: “Improve my agent's instructions so it always asks about dietary restrictions before estimating catering.” Then re-import and test the difference.</p>
-        </div>
-      </details>
-    </section>
-
-    <!-- 11 NEXT -->
-    <section id="next">
-      <div class="sec-eyebrow">STEP 11 <span class="time">· ~10 min</span></div>
-      <h2>Wrap-up &amp; what's next</h2>
-      <p class="intro">Look at what you just did: installed Python, an IDE, and a full agent toolkit from scratch, connected to a cloud AI platform, wrote three tools, and shipped an agent that reasons about when to use them. That's the whole loop — edit, import, chat.</p>
-      <h3>Where to go from here</h3>
-      <ul>
-        <li><b>Give it knowledge.</b> Add a knowledge base so the agent can answer from documents you provide (Orchestrate's built-in RAG) — imagine an “event-planning tips” guide it can quote.</li>
-        <li><b>Make it a team.</b> Add a second agent — say, a catering specialist — and let the event planner hand off to it. That's multi-agent orchestration.</li>
-        <li><b>Add a real tool.</b> Swap the mock venue data for a real API call. The tool is just Python, so anything you can code, your agent can do.</li>
-      </ul>
-      <div class="callout tip"><div class="ct">Keep building with Bob</div><p>Everything you did here, Bob can help you extend. Describe what you want in plain language and iterate.</p></div>
-    </section>
-
-    <!-- TROUBLESHOOTING -->
-    <section id="troubleshooting">
-      <div class="sec-eyebrow">APPENDIX</div>
-      <h2>Troubleshooting</h2>
-      <p class="intro">Most fixes are tucked into the step where you'd hit them (the grey “⚠ Only if…” bars). Here's the same list in one place.</p>
-
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">FIX</span> <code class="ic">orchestrate: command not found</code></summary>
-        <div class="fixbody"><p>Your virtual environment isn't on. Open a new terminal in Bob (it turns on <code class="ic">.venv</code> automatically) — you should see <code class="ic">(.venv)</code> in the prompt. If it persists, reinstall: <code class="ic">pip install --upgrade ibm-watsonx-orchestrate</code>.</p></div>
-      </details>
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">FIX</span> “Authentication failed” or commands stopped working</summary>
-        <div class="fixbody"><p>The connection expires after ~2 hours. Reload your <code class="ic">.env</code> and re-activate — the exact per-OS commands are in the “⚠ Only if…” bar at the end of <b>Step 06</b>. Check your environments any time with <code class="ic">orchestrate env list</code>.</p></div>
-      </details>
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Agent import fails with a validation error</summary>
-        <div class="fixbody"><p>Most often it's the name — agent names can't contain dashes, use underscores (<code class="ic">event_planner</code>). Ask Bob to check your YAML for syntax issues.</p></div>
-      </details>
-      <div class="os-block" data-os="win">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">FIX</span> Python / pip problems on Windows</summary>
-          <div class="fixbody"><p>If <code class="ic">python</code> opens the Microsoft Store, disable the App execution aliases (see Step 01). If a new terminal doesn't recognize Python, you likely missed “Add python.exe to PATH” during install — re-run the installer and tick it.</p></div>
-        </details>
+    <!-- PATH B -->
+    <a class="path b" href="index-api.html">
+      <div class="top">
+        <span class="badge">PATH B</span>
+        <h2>Code + API key</h2>
+        <p class="sub">Install a few tools and let IBM Bob write real Python for you.</p>
       </div>
-      <div class="os-block" data-os="mac">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">FIX</span> Python won't run after installing on macOS</summary>
-          <div class="fixbody"><p>Make sure you opened a <b>new</b> terminal after installing. If <code class="ic">python3</code> still fails, open <b>Applications → Python 3.12</b> and double-click <b>Update Shell Profile.command</b> (and <b>Install Certificates.command</b>), then open a fresh terminal.</p></div>
-        </details>
+      <div class="body">
+        <div class="meta">
+          <span class="chip">~2 hours</span>
+          <span class="chip">installs required</span>
+          <span class="chip">goes deeper</span>
+        </div>
+        <ul>
+          <li>Install Python + IBM Bob (we walk you through every click).</li>
+          <li>Let Bob write three real tools for your agent.</li>
+          <li>Connect with an API key and run a web chat.</li>
+          <li>Best if you want to see how agents work under the hood.</li>
+        </ul>
       </div>
-      <div class="os-block" data-os="linux">
-        <details class="fix">
-          <summary><span class="caret">▶</span><span class="wtag">FIX</span> <code class="ic">python3 -m venv</code> fails on Linux</summary>
-          <div class="fixbody"><p>The venv module isn't bundled on some distros. Install it, then retry Step 04: <code class="ic">sudo apt install python3.12-venv</code> (Ubuntu/Debian).</p></div>
-        </details>
-      </div>
-      <details class="fix">
-        <summary><span class="caret">▶</span><span class="wtag">FIX</span> The toolkit complains about the folder path</summary>
-        <div class="fixbody"><p>Check there are no spaces anywhere in your project folder's path. Move it to something like <code class="ic">Documents/event-planner-ws</code> if needed.</p></div>
-      </details>
-
-      <p style="margin-top:20px">Still stuck? Flag a helper, or paste the exact error into Bob's chat and ask what to do.</p>
-      <footer>Build an Agent · Hands-on workshop · watsonx Orchestrate ADK + IBM Bob</footer>
-    </section>
+      <div class="go"><span>Start Path B</span><span class="arw">→</span></div>
+    </a>
 
   </div>
-  </main>
+
+  <div class="helprow">
+    <h3>Not sure which to pick?</h3>
+    <p>Choose <b class="a">Path A</b> if you want the quickest, no-installs experience and to focus on <i>designing</i> an agent. Choose <b class="b">Path B</b> if you're comfortable following technical steps and want to build tools with real code. You can always do Path A now and come back for Path B later — Path A is the perfect warm-up for it.</p>
+  </div>
+
+  <footer>
+    IBM watsonx Orchestrate · Build an Agent workshop
+  </footer>
 </div>
 
-<script>
-  var VALID=["mac","win","linux"];
-  function setOS(os){
-    if(VALID.indexOf(os)===-1) os="mac";
-    document.documentElement.setAttribute("data-os",os);
-    document.querySelectorAll(".os-switch button").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-set")===os);});
-    try{localStorage.setItem("workshop-os",os);}catch(e){}
-  }
-  document.querySelectorAll(".os-switch button").forEach(function(b){b.addEventListener("click",function(){setOS(b.getAttribute("data-set"));});});
-  (function(){
-    var stored=null; try{stored=localStorage.getItem("workshop-os");}catch(e){}
-    var os=stored;
-    if(!os){var p=(navigator.platform||"")+" "+(navigator.userAgent||"");if(/Win/i.test(p))os="win";else if(/Linux/i.test(p)&&!/Android/i.test(p))os="linux";else os="mac";}
-    setOS(os);
-  })();
-
-  document.querySelectorAll(".cmd").forEach(function(block){
-    var btn=document.createElement("button");
-    btn.className="copy";btn.type="button";btn.textContent="Copy";
-    btn.addEventListener("click",function(){
-      var text=block.querySelector("code").innerText;
-      navigator.clipboard.writeText(text).then(function(){
-        btn.textContent="Copied";btn.classList.add("done");
-        setTimeout(function(){btn.textContent="Copy";btn.classList.remove("done");},1400);
-      });
-    });
-    block.appendChild(btn);
-  });
-
-  var links=[].slice.call(document.querySelectorAll("#nav a"));
-  var sections=links.map(function(a){return document.querySelector(a.getAttribute("href"));});
-  function onScroll(){
-    var pos=window.scrollY+120,current=0;
-    for(var i=0;i<sections.length;i++){if(sections[i]&&sections[i].offsetTop<=pos)current=i;}
-    links.forEach(function(l,i){l.classList.toggle("active",i===current);});
-  }
-  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
-
-  var sidebar=document.getElementById("sidebar"),menuBtn=document.getElementById("menuBtn");
-  menuBtn.addEventListener("click",function(){sidebar.classList.toggle("open");});
-  document.querySelectorAll("#nav a").forEach(function(a){a.addEventListener("click",function(){if(window.innerWidth<=960)sidebar.classList.remove("open");});});
-</script>
 </body>
 </html>
