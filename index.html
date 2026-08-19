@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Build an Agent — watsonx Orchestrate + IBM Bob</title>
+<title>Build an AI Agent with Bob — watsonx Orchestrate + IBM Bob</title>
 <link rel="icon" type="image/png" href="assets/img/bob-favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,11 +43,12 @@
   .topbar .brand .tag{color:var(--gray-30);font-weight:400;}
   .topbar .brand .dot{width:10px;height:10px;background:var(--blue-60);display:inline-block;}
   .os-switch{display:flex;align-items:center;gap:0;border:1px solid var(--gray-70);}
-  .os-switch button{font-family:var(--font-sans);font-size:13px;font-weight:500;background:transparent;color:var(--gray-30);border:none;padding:7px 14px;cursor:pointer;border-right:1px solid var(--gray-70);transition:background .12s,color .12s;}
+  .os-switch button{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-sans);font-size:13px;font-weight:500;background:transparent;color:var(--gray-30);border:none;padding:7px 14px;cursor:pointer;border-right:1px solid var(--gray-70);transition:background .12s,color .12s;white-space:nowrap;}
   .os-switch button:last-child{border-right:none;}
   .os-switch button:hover{background:#2a2a2a;color:var(--white);}
   .os-switch button.active{background:var(--blue-60);color:var(--white);}
-  .os-switch .label{font-size:11px;color:var(--gray-50);padding:0 10px 0 0;text-transform:uppercase;letter-spacing:.08em;}
+  .os-switch button svg{width:14px;height:14px;fill:currentColor;flex:none;display:block;}
+  .os-switch .label{display:inline-flex;align-items:center;font-size:11px;color:var(--gray-50);padding:0 12px;white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid var(--gray-70);align-self:stretch;}
 
   /* ---------- Layout ---------- */
   .layout{display:flex;padding-top:56px;}
@@ -66,7 +67,7 @@
   .hero .eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--blue-60);letter-spacing:.04em;margin-bottom:18px;}
   .hero h1{font-size:52px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 20px;font-weight:600;}
   .hero p.lede{font-size:19px;color:var(--gray-70);max-width:620px;margin:0 0 28px;}
-  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;margin-bottom:8px;}
   .chip{font-family:var(--font-mono);font-size:12px;background:var(--gray-10);border:1px solid var(--gray-20);padding:6px 12px;color:var(--gray-70);}
   .chip b{color:var(--gray-100);font-weight:600;}
 
@@ -165,6 +166,31 @@
   figure.shot.narrow{max-width:520px;}
   figure.shot.tiny{max-width:360px;}
 
+  /* ---------- Bob mascot ---------- */
+  .topbar .brand .bobmark{width:28px;height:28px;object-fit:contain;display:block;margin-right:2px;}
+  .hero-top{display:flex;align-items:flex-start;gap:32px;}
+  .hero-copy{flex:1;min-width:0;}
+  .hero-bob{width:180px;height:auto;flex:none;margin-top:4px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.14));}
+  .bob-say{display:flex;align-items:center;gap:16px;border-left:3px solid var(--blue-60);background:var(--blue-10);padding:14px 18px;margin:18px 0;}
+  .bob-say img{width:60px;height:60px;flex:none;object-fit:contain;}
+  .bob-say .ct{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue-70);margin-bottom:3px;}
+  .bob-say p{margin:0;font-size:15px;}
+  .callout.withbob{display:flex;gap:14px;align-items:center;}
+  .callout.withbob img{width:50px;height:50px;flex:none;object-fit:contain;}
+  .callout.withbob > div{flex:1;min-width:0;}
+  .bob-cheer{display:block;width:130px;height:auto;margin:6px auto 18px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.12));}
+  .certbtn{display:inline-block;background:var(--blue-60);color:var(--white);font-weight:600;font-size:15px;padding:12px 22px;text-decoration:none;transition:background .12s;}
+  .certbtn:hover{background:var(--blue-70);}
+  .fineprint{font-size:13px;color:var(--gray-50);margin-top:6px;}
+  .author{display:flex;align-items:center;gap:12px;margin-top:22px;}
+  .author-pfp{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-20);flex:none;}
+  .author-meta{line-height:1.35;}
+  .author-name{font-weight:600;font-size:14px;}
+  .author-role{font-size:13px;color:var(--gray-70);}
+  .author-contact{font-size:13px;color:var(--gray-50);margin-top:2px;}
+  .author-contact a{color:var(--blue-60);text-decoration:none;}
+  .author-contact a:hover{text-decoration:underline;}
+  @media(max-width:720px){.hero-bob{display:none;}}
   footer{color:var(--gray-50);font-size:13px;padding:32px 0 10px;}
   .mobile-only{display:none;}
   #menuBtn{display:none;}
@@ -186,15 +212,15 @@
 <div class="topbar">
   <div class="brand">
     <button id="menuBtn" aria-label="Toggle navigation">Menu</button>
-    <span class="dot"></span>
+    <img class="bobmark" src="assets/img/bob-head.png" alt="Bob">
     <span>Build an Agent</span>
     <span class="tag">· watsonx Orchestrate + IBM Bob</span>
   </div>
   <div class="os-switch" role="tablist" aria-label="Choose your operating system">
     <span class="label">Your OS</span>
-    <button data-set="mac" role="tab">macOS</button>
-    <button data-set="win" role="tab">Windows</button>
-    <button data-set="linux" role="tab">Linux</button>
+    <button data-set="mac" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>macOS</button>
+    <button data-set="win" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Windows</button>
+    <button data-set="linux" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 0 1-.004-.021l-.004-.024a1.807 1.807 0 0 1-.15.706.953.953 0 0 1-.213.335.71.71 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 0 0-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.26.132a.844.844 0 0 0-.17.334 1.107 1.107 0 0 0-.041.4v.015c.007.135.019.202.057.334-.174-.066-.395-.133-.531-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533.171-.135.376-.198.593-.198zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.328.465.077.19.144.4.157.628v.007c.012.202.008.348-.011.475v.011c-.32.14-.577.278-.792.415-.049-.083-.096-.135-.147-.202a.674.674 0 0 0-.219-.133.626.626 0 0 0-.093-.402.804.804 0 0 0-.235-.267c-.09-.066-.18-.135-.28-.135h-.016c-.093 0-.18.03-.265.135a.906.906 0 0 0-.156.334.902.902 0 0 0-.04.4c0 .134.016.2.056.334-.174-.066-.396-.133-.532-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533a.907.907 0 0 1 .61-.204zM8.235 8.279c.257.017.526.132.797.334.396.293.664.789.664 1.354s-.268 1.06-.664 1.354c-.271.202-.54.317-.797.334-.257-.017-.526-.132-.797-.334-.396-.294-.664-.789-.664-1.354s.268-1.061.664-1.354c.271-.202.54-.317.797-.334z"/></svg>Linux</button>
   </div>
 </div>
 
@@ -210,11 +236,12 @@
       <a href="#adk"><span class="n">05</span><span>Install the ADK</span></a>
       <a href="#connect"><span class="n">06</span><span>Connect to Orchestrate</span></a>
       <a href="#concept"><span class="n">07</span><span>How an agent works</span></a>
-      <a href="#tools"><span class="n">08</span><span>Build the tools</span></a>
-      <a href="#agent"><span class="n">09</span><span>Build the agent</span></a>
-      <a href="#test"><span class="n">10</span><span>Test your agent</span></a>
-      <a href="#webchat"><span class="n">11</span><span>Give your agent a web chat</span></a>
-      <a href="#next"><span class="n">12</span><span>Wrap-up &amp; what's next</span></a>
+      <a href="#bobadk"><span class="n">08</span><span>Give Bob the Orchestrate know-how</span></a>
+      <a href="#tools"><span class="n">09</span><span>Build the tools</span></a>
+      <a href="#agent"><span class="n">10</span><span>Build the agent</span></a>
+      <a href="#test"><span class="n">11</span><span>Test your agent</span></a>
+      <a href="#webchat"><span class="n">12</span><span>Give your agent a web chat</span></a>
+      <a href="#next"><span class="n">13</span><span>Wrap-up &amp; what's next</span></a>
       <a href="#troubleshooting"><span class="n">▸</span><span>Troubleshooting</span></a>
     </nav>
   </aside>
@@ -224,9 +251,22 @@
 
     <!-- HERO -->
     <div class="hero" id="start">
-      <div class="eyebrow">HANDS-ON LAB · ~2 HOURS</div>
-      <h1>Build your first AI agent.</h1>
-      <p class="lede">From an empty laptop to a working event-planning agent — you'll install everything, let Bob write three tools, and watch an AI decide when to use them. No experience needed. We'll go one small step at a time.</p>
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="eyebrow">HANDS-ON LAB · ~2 HOURS</div>
+          <h1>Build an AI Agent with Bob</h1>
+          <p class="lede">From an empty laptop to a working event-planning agent — you'll install everything, let Bob write three tools, and watch an AI decide when to use them. No experience needed. We'll go one small step at a time.</p>
+          <div class="author">
+            <img class="author-pfp" src="assets/img/author.jpg" alt="Joshua Shiman">
+            <div class="author-meta">
+              <div class="author-name">By Joshua Shiman</div>
+              <div class="author-role">Customer Success Engineer · Data &amp; AI · IBM</div>
+              <div class="author-contact"><a href="mailto:jshiman@ibm.com">jshiman@ibm.com</a> · <a href="tel:+14164347485">+1 416-434-7485</a></div>
+            </div>
+          </div>
+        </div>
+        <img class="hero-bob" src="assets/img/bob.png" alt="Bob, your build buddy">
+      </div>
       <div class="meta-row">
         <span class="chip"><b>Tool:</b> watsonx Orchestrate ADK</span>
         <span class="chip"><b>IDE:</b> IBM Bob</span>
@@ -247,9 +287,12 @@
         <li>An <b>IBM ID</b> (your instructor will confirm how to sign in to Bob).</li>
         <li>A watsonx Orchestrate <b>API key + URL</b> — your instructor hands these out in Step 6. You don't make your own.</li>
       </ul>
-      <div class="callout tip">
-        <div class="ct">Stuck? That's normal</div>
-        <p>Raise a hand — 5 helpers are walking the room. And once Bob is installed, you can ask <b>Bob itself</b> for help right inside the app.</p>
+      <div class="callout tip withbob">
+        <img src="assets/img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Stuck? That's normal</div>
+          <p>Raise a hand — 5 helpers are walking the room. And once Bob is installed, you can ask <b>Bob itself</b> for help right inside the app.</p>
+        </div>
       </div>
     </div>
 
@@ -347,6 +390,36 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
           </div>
         </details>
       </div>
+
+      <div class="os-block" data-os="mac">
+        <details class="fix">
+          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the check still shows an older version (like <code class="ic">3.9</code>)</summary>
+          <div class="fixbody">
+            <p>Installing 3.12 does <b>not</b> remove your old Python — both live side by side, which is totally fine. A brand-new terminal usually picks the newest one. If <code class="ic">python3 --version</code> still shows the old version (common if you also have Homebrew Python), just call 3.12 by name to confirm it's there:</p>
+            <div class="cmd"><pre><code>python3.12 --version</code></pre></div>
+            <p>If that prints <code class="ic">Python 3.12.x</code>, you're fine — but use <code class="ic">python3.12</code> in place of <code class="ic">python3</code> when you create the virtual environment in Step 04. The venv locks in whichever version you use, so everything after that just works.</p>
+          </div>
+        </details>
+      </div>
+      <div class="os-block" data-os="win">
+        <details class="fix">
+          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the check still shows an older version (like <code class="ic">3.9</code>)</summary>
+          <div class="fixbody">
+            <p>Installing 3.12 does <b>not</b> remove your old Python — you now have both. Usually a brand-new terminal picks the newest. If it still shows the old one, you most likely didn't tick <b>“Add python.exe to PATH”</b> — re-run the installer and tick it. Either way, you can always call 3.12 directly with the Python launcher:</p>
+            <div class="cmd"><pre><code>py -3.12 --version</code></pre></div>
+            <p>If that prints <code class="ic">Python 3.12.x</code>, use <code class="ic">py -3.12</code> in place of <code class="ic">python</code> when you create the virtual environment in Step 04. The venv locks in that version, so the rest of the workshop just works.</p>
+          </div>
+        </details>
+      </div>
+      <div class="os-block" data-os="linux">
+        <details class="fix">
+          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the check still shows an older version</summary>
+          <div class="fixbody">
+            <p>Your distro's default <code class="ic">python3</code> may point at an older version — that's fine, the 3.12 you just installed lives alongside it. Call it by name to confirm, and use <code class="ic">python3.12</code> when you create the virtual environment in Step 04:</p>
+            <div class="cmd"><pre><code>python3.12 --version</code></pre></div>
+          </div>
+        </details>
+      </div>
     </section>
 
     <!-- 02 BOB -->
@@ -395,11 +468,14 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
         </li>
       </ol>
 
-      <div class="callout tip">
+      <div class="callout tip withbob">
+        <img src="assets/img/bob-head.png" alt="Bob">
+        <div>
         <div class="ct">How you'll work with Bob</div>
         <p>You'll split the work two ways, and it's worth knowing why:</p>
         <p><b>Bob writes your files.</b> When you need a file — a tool, the agent, a config file — just describe it in Bob's chat and let Bob create it for you. That's the whole point of an AI editor: you shouldn't type code from scratch.</p>
         <p><b>You run the commands yourself</b> in Bob's terminal (installing, connecting, testing). Bob runs code in its own protected <b>sandbox</b>, so anything that changes your computer's setup or logs you in has to be run by <i>you</i> in the terminal to actually take effect. We'll point out which is which as we go.</p>
+        </div>
       </div>
 
       <div class="callout">
@@ -418,13 +494,43 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
     <section id="folder">
       <div class="sec-eyebrow">STEP 03 <span class="time">· ~5 min</span></div>
       <h2>Set up your project folder</h2>
-      <p class="intro">Everything you build lives in one folder. Let's create it and open it in Bob. From here on, run commands in <b>Bob's</b> terminal (<b>Terminal → New Terminal</b>).</p>
+      <p class="intro">Everything you build lives in one folder. In this step you'll open Bob, find its terminal, create the folder, and open it. If you set up Python and Bob before today, <b>this is where you start</b> — so we'll go slowly and assume nothing is open yet.</p>
+
+      <div class="callout tip withbob">
+        <img src="assets/img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">First time opening Bob? Here's what you'll see</div>
+          <p>When Bob launches you'll land on a <b>Welcome</b> tab. The important parts of the window:</p>
+          <ul>
+            <li><b>Left edge</b> — a thin strip of icons (Explorer, Search, Extensions…). The top one, <b>Explorer</b>, is your file panel. It says <i>“You have not yet opened a folder”</i> until you open one — that's normal.</li>
+            <li><b>Chat panel</b> — Bob, your AI helper, usually docked on the right (or open it from the Bob icon).</li>
+            <li><b>Bottom bar</b> — the status bar. The <b>Terminal</b> opens as a panel across the bottom.</li>
+          </ul>
+          <p>Bob is built on the same layout as VS Code, so if you've seen that, this will feel familiar.</p>
+        </div>
+      </div>
 
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
+          <div class="stitle">Open a terminal inside Bob</div>
+          <p>From the top menu choose <b>Terminal → New Terminal</b>. A command panel opens across the bottom of the Bob window. This — not your computer's separate Terminal/PowerShell app — is where you'll run every command from here on.</p>
+          <figure class="shot narrow">
+            <img src="assets/img/bob-new-terminal.png" alt="The Terminal menu in IBM Bob with 'New Terminal' highlighted">
+            <figcaption>Opening a terminal in Bob: <b>Terminal → New Terminal</b>. It appears docked at the bottom of the window.</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Go to a known starting spot</div>
+          <p>A fresh terminal can start in any folder — and if you already opened a folder in Bob earlier, you might be sitting inside it. Before creating anything, move to your <b>home folder</b> so everyone starts from the same place:</p>
+          <div class="cmd"><pre><code>cd ~</code></pre></div>
+          <p>That's a shortcut for your home folder on macOS, Linux, and Windows PowerShell alike. Now you know exactly where the new folder will be created.</p>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
           <div class="stitle">Create the folder and go into it</div>
-          <p>In Bob's terminal, type these two commands (press <kbd>Enter</kbd> after each):</p>
+          <p>Type these two commands (press <kbd>Enter</kbd> after each):</p>
           <div class="cmd"><pre><code>mkdir event-planner-ws
 cd event-planner-ws</code></pre></div>
           <div class="note must">
@@ -433,18 +539,22 @@ cd event-planner-ws</code></pre></div>
           </div>
         </li>
         <li class="step">
-          <span class="badge">2</span>
+          <span class="badge">4</span>
           <div class="stitle">Open the folder in Bob</div>
-          <p>Click <b>File → Open Folder</b>, select your new <b>event-planner-ws</b> folder, and click <b>Open</b>. If Bob asks, click <b>Yes, I trust the authors</b>.</p>
+          <p>Click <b>File → Open Folder</b>, select your new <b>event-planner-ws</b> folder (it's in your home folder from Step 2), and click <b>Open</b>. If Bob asks, click <b>Yes, I trust the authors</b>.</p>
           <figure class="shot narrow">
             <img src="assets/img/bob-open-folder.png" alt="Bob's 'Do you trust the authors of the files in this folder?' dialog">
             <figcaption>Click <b>Yes, I trust the authors</b> when this appears. (The screenshot shows a different folder name — you'll see <b>event-planner-ws</b>.)</figcaption>
           </figure>
+          <div class="note">
+            <div class="nt">Bob may reopen the terminal</div>
+            <p>After opening the folder, Bob might reload. If your terminal disappears, just open a fresh one with <b>Terminal → New Terminal</b> — it will now start <i>inside</i> event-planner-ws, so you won't need <code class="ic">cd</code> again.</p>
+          </div>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — project is open</div>
-          <p>The empty <b>event-planner-ws</b> folder is open in Bob and shows in the left-hand file panel.</p>
+          <p>The empty <b>event-planner-ws</b> folder is open in Bob and shows in the left-hand <b>Explorer</b> panel, and you have a terminal open at the bottom.</p>
         </li>
       </ol>
     </section>
@@ -646,9 +756,84 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
       <p>Each tool is just a small Python function with a clear description. Let's write them.</p>
     </section>
 
-    <!-- 08 TOOLS -->
+    <!-- 08 BOB ADK POWER-UP -->
+    <section id="bobadk">
+      <div class="sec-eyebrow">STEP 08 <span class="time">· ~10 min · recommended</span></div>
+      <h2>Give Bob the Orchestrate know-how</h2>
+      <p class="intro">Before Bob writes any code, let's give it a cheat sheet. You'll connect Bob to IBM's official <b>watsonx Orchestrate documentation server</b> so it stops guessing and starts looking up the real, current syntax. This kind of connection is called an <b>MCP server</b> — think of it as a live reference book Bob can open mid-task. It's a one-time setup inside Bob's settings.</p>
+
+      <div class="callout tip withbob">
+        <img src="assets/img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Why bother?</div>
+          <p>Without this, Bob writes agent code from memory and sometimes invents commands. With it, Bob can look up the exact ADK syntax and even list the tools and agents you've already created — so the files it writes in the next steps actually run.</p>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open Bob's MCP settings</div>
+          <p>Two ways to get there — use whichever you see:</p>
+          <ul>
+            <li>Click the <b>gear / settings icon</b> at the top of Bob's <b>chat panel</b>, or</li>
+            <li>Click <b>Bob Settings</b> at the very <b>bottom</b> of the Bob panel.</li>
+          </ul>
+          <p>In settings, open the <b>MCP</b> tab (sometimes labelled <b>MCP Servers</b>). This is where Bob keeps the list of reference servers it can connect to.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Choose <em>this project</em>, then open the config</div>
+          <p>Bob can save an MCP server in one of two places — and it matters which you pick:</p>
+          <ul>
+            <li><b>Global</b> — the server turns on for <i>every</i> project you ever open in Bob.</li>
+            <li><b>Project</b> — the server lives inside this workshop folder only.</li>
+          </ul>
+          <p>Pick <b>Project</b> (sometimes shown as <b>Edit Project MCP</b>, or as a <b>+</b> next to the project section). We want the docs helper tied to <code class="ic">event-planner-ws</code> so it travels with the project and doesn't clutter the rest of your setup. Bob opens a small config file — it looks like this, and may already have other servers in it (that's fine, leave them):</p>
+          <div class="cmd"><pre><code>{
+  "mcpServers": {
+    "bob-marketplace": { "type": "streamable-http", "url": "http://127.0.0.1:…" }
+  }
+}</code></pre></div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Add the docs server — let Bob do it</div>
+          <p>The easy way: with the config file open, ask Bob in the chat to add it for you. Paste this request:</p>
+          <div class="cmd"><pre><code>Add an MCP server named "watsonx-orchestrate-docs" to this project's MCP config. It's a remote streamable-http server at https://developer.watson-orchestrate.ibm.com/mcp . Keep the existing servers.</code></pre></div>
+          <p>Or add it by hand — put this entry <b>inside</b> the <code class="ic">mcpServers</code> block (add a comma after the previous server if there is one), then save:</p>
+          <div class="cmd"><pre><code>"watsonx-orchestrate-docs": {
+  "type": "streamable-http",
+  "url": "https://developer.watson-orchestrate.ibm.com/mcp"
+}</code></pre></div>
+          <p>When you save, if Bob asks you to <b>approve</b> or <b>trust</b> the server, click approve.</p>
+          <figure class="shot narrow">
+            <img src="assets/img/bob-mcp-approve.png" alt="Bob prompting to approve an MCP server">
+            <figcaption>Approve the server when Bob asks the first time it connects.</figcaption>
+          </figure>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob can read the Orchestrate docs</div>
+          <p>Back in the MCP tab the server should show a <b>green</b> dot (connected). To be sure, ask Bob in the chat: <i>“Search the watsonx Orchestrate docs — how do I create an agent with the ADK?”</i> If it answers by citing the docs, you're set — the code it writes next will use real, current syntax.</p>
+        </li>
+      </ol>
+
+      <div class="callout">
+        <div class="ct">What did we just connect?</div>
+        <p>The address above is IBM's official <b>watsonx Orchestrate Documentation MCP Server</b> — a remote server IBM hosts. Because it's remote, there's nothing to install on your machine and no <code class="ic">uv</code> or Python setup needed for this step; Bob just talks to it over the web. It gives Bob a search tool over the current Orchestrate documentation.</p>
+      </div>
+
+      <div class="callout">
+        <div class="ct">Optional: the “WXO Agent Architect” mode</div>
+        <p>Some instructors also share a ready-made Bob mode called <b>WXO Agent Architect</b> — a version of Bob pre-briefed to always check the ADK docs and follow Orchestrate best practices. If yours provides the export file, import it via Command Palette → <b>Modes</b> → the <b>Import</b> icon → pick the <code class="ic">.yaml</code> file → choose <b>WXO Agent Architect</b>, then select it from the mode picker at the top of the chat.</p>
+        <p class="fineprint">This setup mirrors IBM's public <a class="inline" href="https://juseljuk.github.io/bobchestrate-workshop/" target="_blank" rel="noopener">Bobchestrate workshop</a>, adapted for beginners.</p>
+      </div>
+    </section>
+
+    <!-- 09 TOOLS -->
     <section id="tools">
-      <div class="sec-eyebrow">STEP 08 <span class="time">· ~20 min</span></div>
+      <div class="sec-eyebrow">STEP 09 <span class="time">· ~20 min</span></div>
       <h2>Build the tools</h2>
       <p class="intro">Now the fun part — and here's where Bob earns its keep. Instead of typing three Python files by hand, you'll <b>describe the tools to Bob and let it write them</b>. The important idea to notice: each tool is a Python function with a plain-English docstring, and that description is what the AI reads to decide when to use the tool.</p>
 
@@ -849,7 +1034,7 @@ orchestrate tools import -k python -f tools/update_guest_list.py</code></pre></d
 
     <!-- 09 AGENT -->
     <section id="agent">
-      <div class="sec-eyebrow">STEP 09 <span class="time">· ~10 min</span></div>
+      <div class="sec-eyebrow">STEP 10 <span class="time">· ~10 min</span></div>
       <h2>Build the agent</h2>
       <p class="intro">The agent itself is a single file. It names the model, gives the instructions, and lists the three tools it's allowed to use.</p>
 
@@ -953,7 +1138,7 @@ starter_prompts:
 
     <!-- 10 TEST -->
     <section id="test">
-      <div class="sec-eyebrow">STEP 10 <span class="time">· ~15 min</span></div>
+      <div class="sec-eyebrow">STEP 11 <span class="time">· ~15 min</span></div>
       <h2>Test your event planner</h2>
       <p class="intro">Time to talk to what you built. This opens a chat with your agent right in the terminal.</p>
 
@@ -961,7 +1146,7 @@ starter_prompts:
         <li class="step">
           <span class="badge">1</span>
           <div class="stitle">Start chatting</div>
-          <p>(Use your unique name here if you added initials in Step 09.)</p>
+          <p>(Use your unique name here if you added initials in Step 10.)</p>
           <div class="cmd"><pre><code>orchestrate chat ask --agent-name event_planner</code></pre></div>
         </li>
         <li class="step">
@@ -995,7 +1180,7 @@ starter_prompts:
 
     <!-- 11 WEB CHAT -->
     <section id="webchat">
-      <div class="sec-eyebrow">STEP 11 <span class="time">· ~10 min</span></div>
+      <div class="sec-eyebrow">STEP 12 <span class="time">· ~10 min</span></div>
       <h2>Give your agent a web chat</h2>
       <p class="intro">The terminal chat proves it works — now let's give your agent a real chat window in the browser, styled like a product. You'll run one small file, <code class="ic">chat.py</code>, that opens a web page and safely talks to Orchestrate for you using the URL and key already in your <code class="ic">.env</code>. No accounts, no extra setup.</p>
 
@@ -1023,7 +1208,7 @@ starter_prompts:
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Open it and chat</div>
-          <p>Open <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> in your browser. Pick your agent from the dropdown at the top (use your initials version if you renamed it in Step 09), then try the same kinds of questions:</p>
+          <p>Open <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> in your browser. Pick your agent from the dropdown at the top (use your initials version if you renamed it in Step 10), then try the same kinds of questions:</p>
           <ul>
             <li>“Plan a 40-person team offsite in Austin.”</li>
             <li>“Estimate the budget for a 120-guest wedding.”</li>
@@ -1057,10 +1242,11 @@ starter_prompts:
       </details>
     </section>
 
-    <!-- 12 NEXT -->
+    <!-- 13 NEXT -->
     <section id="next">
-      <div class="sec-eyebrow">STEP 12 <span class="time">· ~10 min</span></div>
+      <div class="sec-eyebrow">STEP 13 <span class="time">· ~10 min</span></div>
       <h2>Wrap-up &amp; what's next</h2>
+      <img class="bob-cheer" src="assets/img/bob.png" alt="Bob celebrating">
       <p class="intro">Look at what you just did: installed Python, an IDE, and a full agent toolkit from scratch, connected to a cloud AI platform, wrote three tools, and shipped an agent that reasons about when to use them. That's the whole loop — edit, import, chat.</p>
       <h3>Where to go from here</h3>
       <ul>
@@ -1068,7 +1254,25 @@ starter_prompts:
         <li><b>Make it a team.</b> Add a second agent — say, a catering specialist — and let the event planner hand off to it. That's multi-agent orchestration.</li>
         <li><b>Add a real tool.</b> Swap the mock venue data for a real API call. The tool is just Python, so anything you can code, your agent can do.</li>
       </ul>
-      <div class="callout tip"><div class="ct">Keep building with Bob</div><p>Everything you did here, Bob can help you extend. Describe what you want in plain language and iterate.</p></div>
+      <h3>Claim your certificate 🎉</h3>
+      <p>You earned it. Grab your <b>IBM Bob Champion</b> certificate of recognition here:</p>
+      <p><a class="certbtn" href="https://ibmbobdevday.com/internal/certificate.html" target="_blank" rel="noopener">Get my certificate →</a></p>
+      <figure class="shot narrow">
+        <img src="assets/img/certificate-example.png" alt="Example IBM Bob Champion certificate of recognition">
+        <figcaption>What your certificate looks like — personalized with your name.</figcaption>
+      </figure>
+
+      <div class="callout tip">
+        <div class="ct">Share the win</div>
+        <p>Proud of what you built? Post it — it helps others discover Bob and watsonx Orchestrate.</p>
+        <ul>
+          <li><b>LinkedIn:</b> share a screenshot of your certificate (or your running agent) with a line about what you built. Tag <b>#IBMBob</b>, <b>#watsonxOrchestrate</b>, and <b>#BuildAnAgent</b>.</li>
+          <li><b>Tell the story, not just the tool:</b> “Today I went from an empty laptop to a working AI agent that plans events — here's what surprised me…” lands better than “I attended a workshop.”</li>
+          <li><b>Tag IBM</b> and your instructor/teammates so they can reshare, and drop a screenshot of the agent actually answering a question.</li>
+        </ul>
+      </div>
+
+      <div class="callout tip withbob"><img src="assets/img/bob-head.png" alt="Bob"><div><div class="ct">Keep building with Bob</div><p>Everything you did here, Bob can help you extend. Describe what you want in plain language and iterate.</p></div></div>
     </section>
 
     <!-- TROUBLESHOOTING -->
