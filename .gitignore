@@ -1,3 +1,8 @@
 # Sensitive: contains live watsonx Orchestrate API keys — never commit
 wxo-environments.md
 wxo-environments-attendees.md
+.venv
+.env
+
+# Internal facilitator note — not for public/attendee repos
+WXO-AGENT-ARCHITECT-MODE.md

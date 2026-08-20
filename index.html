@@ -96,6 +96,11 @@
   .step .stitle{font-weight:600;font-size:16.5px;margin:4px 0 6px;letter-spacing:-0.01em;}
   .step p{margin:0 0 10px;}
   .step ul{margin:6px 0 10px;}
+  .substeps{margin:6px 0 10px;padding-left:22px;}
+  .substeps>li{margin:0 0 12px;padding-left:4px;line-height:1.55;}
+  .substeps>li::marker{font-family:var(--font-mono);font-weight:600;color:var(--blue-60);}
+  .substeps .cmd{margin:8px 0 2px;}
+  .substeps .note{margin:8px 0 2px;}
   /* final checkpoint step */
   .step.done::before{background:var(--green-50);}
   .step.done .badge{background:var(--green-50);font-size:17px;}
@@ -234,9 +239,9 @@
       <a href="#folder"><span class="n">03</span><span>Set up your project</span></a>
       <a href="#venv"><span class="n">04</span><span>Create a virtual environment</span></a>
       <a href="#adk"><span class="n">05</span><span>Install the ADK</span></a>
-      <a href="#connect"><span class="n">06</span><span>Connect to Orchestrate</span></a>
-      <a href="#concept"><span class="n">07</span><span>How an agent works</span></a>
-      <a href="#bobadk"><span class="n">08</span><span>Give Bob the Orchestrate know-how</span></a>
+      <a href="#bobadk"><span class="n">06</span><span>Give Bob the Orchestrate know-how</span></a>
+      <a href="#connect"><span class="n">07</span><span>Connect to Orchestrate</span></a>
+      <a href="#concept"><span class="n">08</span><span>How an agent works</span></a>
       <a href="#tools"><span class="n">09</span><span>Build the tools</span></a>
       <a href="#agent"><span class="n">10</span><span>Build the agent</span></a>
       <a href="#test"><span class="n">11</span><span>Test your agent</span></a>
@@ -285,7 +290,7 @@
       <ul>
         <li>A laptop you can install software on, and internet.</li>
         <li>An <b>IBM ID</b> (your instructor will confirm how to sign in to Bob).</li>
-        <li>A watsonx Orchestrate <b>API key + URL</b> — your instructor hands these out in Step 6. You don't make your own.</li>
+        <li>A watsonx Orchestrate <b>API key + URL</b> — your instructor hands these out in Step 7. You don't make your own.</li>
       </ul>
       <div class="callout tip withbob">
         <img src="assets/img/bob-head.png" alt="Bob">
@@ -554,7 +559,7 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
     <section id="venv">
       <div class="sec-eyebrow">STEP 04 <span class="time">· ~10 min</span></div>
       <h2>Create a virtual environment</h2>
-      <p class="intro">A virtual environment is a private sandbox for this project's Python packages, so what we install here never messes with anything else on your computer. We'll make one called <code class="ic">.venv</code> — it's just two commands.</p>
+      <p class="intro">A virtual environment is a private sandbox for this project's Python packages, so what we install here never messes with anything else on your computer. We'll make one called <code class="ic">.venv</code> — just two commands, typed in the <b>terminal</b> (not Bob's chat).</p>
 
       <ol class="steps">
         <li class="step">
@@ -603,7 +608,7 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
     <section id="adk">
       <div class="sec-eyebrow">STEP 05 <span class="time">· ~15 min</span></div>
       <h2>Install the watsonx Orchestrate ADK</h2>
-      <p class="intro">The <b>Agent Development Kit (ADK)</b> is the toolkit for building and testing agents. It installs as a Python package and gives you a command called <code class="ic">orchestrate</code>. Make sure you see <code class="ic">(.venv)</code> in your prompt first.</p>
+      <p class="intro">The <b>Agent Development Kit (ADK)</b> is the toolkit for building and testing agents. It installs as a Python package and gives you a command called <code class="ic">orchestrate</code>. These go in the <b>terminal</b> (not Bob's chat) — make sure you see <code class="ic">(.venv)</code> in your prompt first.</p>
 
       <ol class="steps">
         <li class="step">
@@ -650,30 +655,147 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
       </details>
     </section>
 
-    <!-- 06 CONNECT -->
-    <section id="connect">
-      <div class="sec-eyebrow">STEP 06 <span class="time">· ~10 min</span></div>
-      <h2>Connect to watsonx Orchestrate</h2>
-      <p class="intro">Your agent runs on a watsonx Orchestrate instance in the cloud. To reach it, the toolkit needs two things your <b>instructor gives you now</b>: an <b>API URL</b> and an <b>API key</b>. Instead of pasting your key into every command, you'll store both in a small <code class="ic">.env</code> file once and point the commands at it.</p>
+    <!-- 08 BOB ADK POWER-UP -->
+    <section id="bobadk">
+      <div class="sec-eyebrow">STEP 06 <span class="time">· ~10 min · recommended</span></div>
+      <h2>Give Bob the Orchestrate know-how</h2>
+      <p class="intro">Before Bob writes any code, let's give it a cheat sheet. You'll connect Bob to IBM's official <b>watsonx Orchestrate documentation server</b> so it stops guessing and starts looking up the real, current syntax. This kind of connection is called an <b>MCP server</b> — think of it as a live reference book Bob can open mid-task. It's a one-time setup inside Bob's settings.</p>
+
+      <div class="callout tip withbob">
+        <img src="assets/img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Why bother?</div>
+          <p>Without this, Bob writes agent code from memory and sometimes invents commands. With it, Bob can look up the exact ADK syntax and even list the tools and agents you've already created — so the files it writes in the next steps actually run.</p>
+        </div>
+      </div>
 
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
-          <div class="stitle">Get your URL and key from the instructor</div>
-          <p>Grab the <b>API URL</b> and <b>API key</b> your instructor is handing out. Keep them handy for the next step.</p>
+          <div class="stitle">Open Bob's MCP settings</div>
+          <p>Two ways to get there — use whichever you see:</p>
+          <ul>
+            <li>Click the <b>gear / settings icon</b> at the top of Bob's <b>chat panel</b>, or</li>
+            <li>Click <b>Bob Settings</b> at the very <b>bottom</b> of the Bob panel.</li>
+          </ul>
+          <p>In settings, open the <b>MCP</b> tab (sometimes labelled <b>MCP Servers</b>). This is where Bob keeps the list of reference servers it can connect to.</p>
         </li>
         <li class="step">
           <span class="badge">2</span>
-          <div class="stitle">Ask Bob to create a <code class="ic">.env</code> file</div>
-          <p>In Bob's <b>chat</b>, paste this (fill in the two values first):</p>
-          <div class="cmd"><pre><code>Create a file called .env in my project root with exactly these two lines:
-WXO_URL=&lt;paste the instructor URL here&gt;
-WXO_API_KEY=&lt;paste the instructor key here&gt;</code></pre></div>
-          <p>Bob creates the file for you. Open it from the file panel to double-check your two values look right.</p>
+          <div class="stitle">Choose <em>this project</em>, then open the config</div>
+          <p>Bob can save an MCP server in one of two places — and it matters which you pick:</p>
+          <ul>
+            <li><b>Global</b> — the server turns on for <i>every</i> project you ever open in Bob.</li>
+            <li><b>Project</b> — the server lives inside this workshop folder only.</li>
+          </ul>
+          <p>Click the <b>+</b> at the top-right of the MCP servers list. Bob pops up an <b>Add MCP Server</b> dialog with a <b>Configuration Scope</b> dropdown — open it and you'll see two choices: <b>Global (All Workspaces)</b> and your project, <b>build-an-agent</b>. Pick your <b>project</b> — we want the docs helper tied to this folder so it travels with the project and doesn't clutter the rest of your setup.</p>
+          <figure class="shot">
+            <img src="assets/img/bob-mcp-settings.png" alt="Bob's MCP settings tab with the Add MCP Server dialog open, the Configuration Scope dropdown expanded showing 'Global (All Workspaces)' and the 'build-an-agent' project option, and an Open Configuration File button">
+            <figcaption>In the <b>MCP</b> tab, click <b>+</b> → set <b>Configuration Scope</b> to your project (<code class="ic">build-an-agent</code>), not Global → <b>Open Configuration File</b>.</figcaption>
+          </figure>
+          <p>Now click <b>Open Configuration File</b>. Bob opens a small config file — it looks like this, and may already have other servers in it (that's fine, leave them):</p>
+          <div class="cmd"><pre><code>{
+  "mcpServers": {
+    "bob-marketplace": { "type": "streamable-http", "url": "http://127.0.0.1:…" }
+  }
+}</code></pre></div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Add the docs server — let Bob do it</div>
+          <p>The easy way: with the config file open, ask Bob in the chat to add it for you. Paste this request:</p>
+          <div class="cmd"><pre><code>Add an MCP server named "watsonx-orchestrate-docs" to this project's MCP config. It's a remote streamable-http server at https://developer.watson-orchestrate.ibm.com/mcp . Keep the existing servers.</code></pre></div>
+          <p>Or add it by hand — put this entry <b>inside</b> the <code class="ic">mcpServers</code> block (add a comma after the previous server if there is one), then save:</p>
+          <div class="cmd"><pre><code>"watsonx-orchestrate-docs": {
+  "type": "streamable-http",
+  "url": "https://developer.watson-orchestrate.ibm.com/mcp"
+}</code></pre></div>
+          <p>When you save, if Bob asks you to <b>approve</b> or <b>trust</b> the server, click approve.</p>
+          <figure class="shot narrow">
+            <img src="assets/img/bob-mcp-approve.png" alt="Bob prompting to approve an MCP server">
+            <figcaption>Approve the server when Bob asks the first time it connects.</figcaption>
+          </figure>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob can read the Orchestrate docs</div>
+          <p>Back in the MCP tab the server should show a <b>green</b> dot (connected). To be sure, ask Bob in the chat: <i>“Search the watsonx Orchestrate docs — how do I create an agent with the ADK?”</i> If it answers by citing the docs, you're set — the code it writes next will use real, current syntax.</p>
+        </li>
+      </ol>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 What did we just connect?</span></summary>
+        <div class="fixbody">
+          <p>The address above is IBM's official <b>watsonx Orchestrate Documentation MCP Server</b> — a remote server IBM hosts. Because it's remote, there's nothing to install on your machine and no <code class="ic">uv</code> or Python setup needed for this step; Bob just talks to it over the web. It gives Bob a search tool over the current Orchestrate documentation.</p>
+        </div>
+      </details>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Optional</span> the “WXO Agent Architect” mode</summary>
+        <div class="fixbody">
+          <p>Some instructors also share a ready-made Bob mode called <b>WXO Agent Architect</b> — a version of Bob pre-briefed to always check the ADK docs and follow Orchestrate best practices. If yours provides the export file, import it via Command Palette → <b>Modes</b> → the <b>Import</b> icon → pick the <code class="ic">.yaml</code> file → choose <b>WXO Agent Architect</b>, then select it from the mode picker at the top of the chat.</p>
+          <p class="fineprint">This setup mirrors IBM's public <a class="inline" href="https://juseljuk.github.io/bobchestrate-workshop/" target="_blank" rel="noopener">Bobchestrate workshop</a>, adapted for beginners.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- 06 CONNECT -->
+    <section id="connect">
+      <div class="sec-eyebrow">STEP 07 <span class="time">· ~10 min</span></div>
+      <h2>Connect to watsonx Orchestrate</h2>
+      <p class="intro">Your agent runs on a watsonx Orchestrate instance in the cloud. To reach it, the toolkit needs two things: a <b>Service Instance URL</b> and an <b>API key</b>. You'll grab both from a shared Box folder, store them once in a small <code class="ic">.env</code> file, and point the commands at it.</p>
+
+      <div class="note must">
+        <div class="nt">One step you do by hand</div>
+        <p>You'll <b>create the <code class="ic">.env</code> file yourself</b> here — don't ask Bob (it refuses to write API keys; the why is in step 2).</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Get your URL and key from the Box folder</div>
+          <p>Open the shared workshop folder: <a href="https://ibm.box.com/v/internaldevday" target="_blank" rel="noopener">ibm.box.com/v/internaldevday</a> (password-protected — your instructor will give you the password). Inside, open the <b>Box note</b> with the environment credentials.</p>
+          <p>The note lists environments <b>by last name</b>. Find the row that matches <b>your last name</b> and copy the two values from it:</p>
+          <ul>
+            <li>your <b>Service Instance URL</b> (a long <code class="ic">https://api.ca-tor.watson-orchestrate.cloud.ibm.com/instances/…</code> address), and</li>
+            <li>your <b>API Key</b>.</li>
+          </ul>
           <div class="note">
-            <div class="nt">Prefer to do it by hand?</div>
-            <p>Right-click your project → <b>New File</b>, name it <code class="ic">.env</code>, and type the two <code class="ic">WXO_URL=…</code> / <code class="ic">WXO_API_KEY=…</code> lines yourself. Either way works.</p>
+            <div class="nt">Please use only your assigned row</div>
+            <p>Everyone shares a pool of environments, so stick to the row for your last name so there's capacity for the whole room. If your name lands right on a boundary between two rows, either one is fine.</p>
           </div>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Create the <code class="ic">.env</code> file by hand</div>
+          <p>Do this in Bob's <b>Explorer</b> — the file tree on the left. It works exactly like VS Code, so follow these clicks:</p>
+          <ol class="substeps">
+            <li><b>Show the Explorer.</b> If you don't see the file tree on the left, click the top-most icon in the narrow strip on the far left (the two stacked pages), or press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd> (Windows/Linux: <kbd>Ctrl</kbd><kbd>⇧</kbd><kbd>E</kbd>). You should see your project folder, <code class="ic">event-planner-ws</code>, at the top.</li>
+            <li><b>Start a new file.</b> Hover over the project folder name — a little row of icons appears to its right. Click the <b>New File</b> icon (a page with a small <b>+</b>). A blank name box opens in the tree.
+              <details class="fix tip-d">
+                <summary><span class="caret">▶</span><span class="wtag">💡 Two other ways</span> to make a new file</summary>
+                <div class="fixbody"><p>Right-click the project folder → <b>New File…</b>, or use the top menu bar: <b>File → New File…</b>. Any of the three is fine — pick whichever you spot first.</p></div>
+              </details>
+            </li>
+            <li><b>Name it exactly <code class="ic">.env</code></b> — start with the dot, with <u>nothing before it</u> (not <code class="ic">env</code>, not <code class="ic">my.env</code>). Press <kbd>Enter</kbd>. Bob opens the empty file in the editor.</li>
+            <li><b>Paste these two lines</b> into the file, filling in <b>your</b> two values from the Box note (the whole Service Instance URL, and the API Key):
+              <div class="cmd"><pre><code>WXO_URL=&lt;paste your Service Instance URL here&gt;
+WXO_API_KEY=&lt;paste your API Key here&gt;</code></pre></div>
+            </li>
+            <li><b>Save</b> with <kbd>⌘</kbd><kbd>S</kbd> (Windows/Linux: <kbd>Ctrl</kbd><kbd>S</kbd>). Two lines, no quotes, no spaces around the <code class="ic">=</code>. The dot on the editor tab turns back into an ✕ when it's saved.</li>
+          </ol>
+          <figure class="shot narrow">
+            <img src="assets/img/bob-new-file.png" alt="Creating a new .env file in Bob's Explorer using the New File icon">
+            <figcaption>Creating the <code class="ic">.env</code> file by hand in Bob's Explorer — hover the project folder and click the <b>New File</b> icon, then name it <code class="ic">.env</code>.</figcaption>
+          </figure>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 Why not just ask Bob?</span></summary>
+            <div class="fixbody"><p>If you ask Bob to write your key into <code class="ic">.env</code>, it refuses with something like <i>"Storing an API key directly in a <code class="ic">.env</code> file that lives in your project root violates IBM security policy…"</i> and instead creates a <code class="ic">.env.example</code> file <b>with no real key in it</b>. That's expected Bob behavior, not a bug — but it means the connect commands below would fail because your key isn't actually there. So for this one step, type the file by hand. (If you see a <code class="ic">.env.example</code> appear, you can ignore or delete it — you want <code class="ic">.env</code>.)</p></div>
+          </details>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 Is my key safe here?</span></summary>
+            <div class="fixbody"><p><code class="ic">.env</code> is already listed in <code class="ic">.gitignore</code>, so it never gets committed or shared. Treat the key like a password — don't paste it into chat or screenshots.</p></div>
+          </details>
         </li>
         <li class="step">
           <span class="badge">3</span>
@@ -692,6 +814,7 @@ orchestrate env activate workshop --api-key "$WXO_API_KEY"</code></pre></div></d
             <div class="cmd"><pre><code>orchestrate env add --name workshop --url "$env:WXO_URL" --type ibm_iam
 orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div>
           </div>
+          <p class="runline">Heads up: one of these commands may ask you a <b>yes/no follow-up</b> in the terminal (for example, confirming it should overwrite or activate the environment). If it does, type <code class="ic">y</code> and press <kbd>Enter</kbd>. The exact prompt can vary — say yes to continue.</p>
         </li>
         <li class="step">
           <span class="badge">4</span>
@@ -733,7 +856,7 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
 
     <!-- 07 CONCEPT -->
     <section id="concept">
-      <div class="sec-eyebrow">STEP 07 <span class="time">· ~5 min</span></div>
+      <div class="sec-eyebrow">STEP 08 <span class="time">· ~5 min</span></div>
       <h2>How an agent works</h2>
       <p class="intro">Quick breather — no typing here. Here's the whole idea in one sentence: <b>an agent is a language model, plus instructions on how to behave, plus a set of tools it's allowed to use.</b></p>
       <p>The part that surprises people: you never write “if the user asks about budget, call the budget tool.” You just describe each tool in plain English, and the model decides on its own when to call which one. That's what you're about to see.</p>
@@ -752,81 +875,6 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
         <img src="assets/img/agent-flow-diagram.png" alt="Diagram: you type a message into chat.py on your laptop, which relays it via IAM (key to token) to the agent in watsonx Orchestrate; Llama 3.3 does the reasoning and calls the estimate-budget, suggest-venues, and guest-list tools, then the reply comes back. Bob (with the docs MCP) builds the agent and deploys it via the Orchestrate ADK.">
         <figcaption>The event-planner agent end to end: built in Bob (with the docs MCP), deployed via the Orchestrate ADK, and reached from your laptop through <code class="ic">chat.py</code>.</figcaption>
       </figure>
-    </section>
-
-    <!-- 08 BOB ADK POWER-UP -->
-    <section id="bobadk">
-      <div class="sec-eyebrow">STEP 08 <span class="time">· ~10 min · recommended</span></div>
-      <h2>Give Bob the Orchestrate know-how</h2>
-      <p class="intro">Before Bob writes any code, let's give it a cheat sheet. You'll connect Bob to IBM's official <b>watsonx Orchestrate documentation server</b> so it stops guessing and starts looking up the real, current syntax. This kind of connection is called an <b>MCP server</b> — think of it as a live reference book Bob can open mid-task. It's a one-time setup inside Bob's settings.</p>
-
-      <div class="callout tip withbob">
-        <img src="assets/img/bob-head.png" alt="Bob">
-        <div>
-          <div class="ct">Why bother?</div>
-          <p>Without this, Bob writes agent code from memory and sometimes invents commands. With it, Bob can look up the exact ADK syntax and even list the tools and agents you've already created — so the files it writes in the next steps actually run.</p>
-        </div>
-      </div>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Open Bob's MCP settings</div>
-          <p>Two ways to get there — use whichever you see:</p>
-          <ul>
-            <li>Click the <b>gear / settings icon</b> at the top of Bob's <b>chat panel</b>, or</li>
-            <li>Click <b>Bob Settings</b> at the very <b>bottom</b> of the Bob panel.</li>
-          </ul>
-          <p>In settings, open the <b>MCP</b> tab (sometimes labelled <b>MCP Servers</b>). This is where Bob keeps the list of reference servers it can connect to.</p>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Choose <em>this project</em>, then open the config</div>
-          <p>Bob can save an MCP server in one of two places — and it matters which you pick:</p>
-          <ul>
-            <li><b>Global</b> — the server turns on for <i>every</i> project you ever open in Bob.</li>
-            <li><b>Project</b> — the server lives inside this workshop folder only.</li>
-          </ul>
-          <p>Pick <b>Project</b> (sometimes shown as <b>Edit Project MCP</b>, or as a <b>+</b> next to the project section). We want the docs helper tied to <code class="ic">event-planner-ws</code> so it travels with the project and doesn't clutter the rest of your setup. Bob opens a small config file — it looks like this, and may already have other servers in it (that's fine, leave them):</p>
-          <div class="cmd"><pre><code>{
-  "mcpServers": {
-    "bob-marketplace": { "type": "streamable-http", "url": "http://127.0.0.1:…" }
-  }
-}</code></pre></div>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Add the docs server — let Bob do it</div>
-          <p>The easy way: with the config file open, ask Bob in the chat to add it for you. Paste this request:</p>
-          <div class="cmd"><pre><code>Add an MCP server named "watsonx-orchestrate-docs" to this project's MCP config. It's a remote streamable-http server at https://developer.watson-orchestrate.ibm.com/mcp . Keep the existing servers.</code></pre></div>
-          <p>Or add it by hand — put this entry <b>inside</b> the <code class="ic">mcpServers</code> block (add a comma after the previous server if there is one), then save:</p>
-          <div class="cmd"><pre><code>"watsonx-orchestrate-docs": {
-  "type": "streamable-http",
-  "url": "https://developer.watson-orchestrate.ibm.com/mcp"
-}</code></pre></div>
-          <p>When you save, if Bob asks you to <b>approve</b> or <b>trust</b> the server, click approve.</p>
-          <figure class="shot narrow">
-            <img src="assets/img/bob-mcp-approve.png" alt="Bob prompting to approve an MCP server">
-            <figcaption>Approve the server when Bob asks the first time it connects.</figcaption>
-          </figure>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — Bob can read the Orchestrate docs</div>
-          <p>Back in the MCP tab the server should show a <b>green</b> dot (connected). To be sure, ask Bob in the chat: <i>“Search the watsonx Orchestrate docs — how do I create an agent with the ADK?”</i> If it answers by citing the docs, you're set — the code it writes next will use real, current syntax.</p>
-        </li>
-      </ol>
-
-      <div class="callout">
-        <div class="ct">What did we just connect?</div>
-        <p>The address above is IBM's official <b>watsonx Orchestrate Documentation MCP Server</b> — a remote server IBM hosts. Because it's remote, there's nothing to install on your machine and no <code class="ic">uv</code> or Python setup needed for this step; Bob just talks to it over the web. It gives Bob a search tool over the current Orchestrate documentation.</p>
-      </div>
-
-      <div class="callout">
-        <div class="ct">Optional: the “WXO Agent Architect” mode</div>
-        <p>Some instructors also share a ready-made Bob mode called <b>WXO Agent Architect</b> — a version of Bob pre-briefed to always check the ADK docs and follow Orchestrate best practices. If yours provides the export file, import it via Command Palette → <b>Modes</b> → the <b>Import</b> icon → pick the <code class="ic">.yaml</code> file → choose <b>WXO Agent Architect</b>, then select it from the mode picker at the top of the chat.</p>
-        <p class="fineprint">This setup mirrors IBM's public <a class="inline" href="https://juseljuk.github.io/bobchestrate-workshop/" target="_blank" rel="noopener">Bobchestrate workshop</a>, adapted for beginners.</p>
-      </div>
     </section>
 
     <!-- 09 TOOLS -->
@@ -1009,6 +1057,15 @@ def update_guest_list(current_guests: list, action: str, names: list) -> dict:
           <div class="cmd"><pre><code>orchestrate tools import -k python -f tools/estimate_event_budget.py
 orchestrate tools import -k python -f tools/suggest_venues.py
 orchestrate tools import -k python -f tools/update_guest_list.py</code></pre></div>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 Shortcut</span> let Bob run the imports for you</summary>
+            <div class="fixbody">
+              <p>If you gave Bob the Orchestrate know-how back in <b>Step 6</b>, you can let it do this. In the chat, ask:</p>
+              <div class="cmd"><pre><code>Import all three tool files in my tools/ folder into watsonx Orchestrate using the ADK, then list the tools to confirm.</code></pre></div>
+              <p>Bob will run the same <code class="ic">orchestrate tools import</code> commands in its own terminal and show you the results. Approve the run when it asks. This works because your environment is already activated on this machine (Step 7) — Bob reuses that connection.</p>
+              <p class="runline">Prefer to learn the commands? Just run them yourself above — both paths do exactly the same thing.</p>
+            </div>
+          </details>
         </li>
         <li class="step">
           <span class="badge">4</span>
@@ -1051,7 +1108,9 @@ Write instructions telling it to be a friendly event-planning assistant:
 use each tool appropriately, ask one short clarifying question when it is
 missing a city, guest count, budget, or event type, and always pass the
 full guest list back to update_guest_list so nothing is lost. Add a short
-welcome message and three starter prompts.</code></pre></div>
+welcome message and exactly three starter prompts. Give each starter
+prompt its own unique "id" field, and do NOT include an
+"is_default_prompts" field (it is not part of the schema).</code></pre></div>
           <p>Approve the change, then open the new <code class="ic">event_planner.yaml</code> to see what Bob wrote.</p>
         </li>
         <li class="step">
@@ -1095,34 +1154,54 @@ welcome_content:
   welcome_message: "Hi! I'm your event planning assistant."
   description: "I can estimate a budget, suggest venues, and manage your guest list."
 starter_prompts:
-  is_default_prompts: true
   prompts:
-    - title: "Estimate a budget"
+    - id: "estimate-budget"
+      title: "Estimate a budget"
       subtitle: "See what an event might cost"
       prompt: "How much would a birthday party for 20 people cost?"
-    - title: "Find a venue"
+    - id: "find-venue"
+      title: "Find a venue"
       subtitle: "Get venue ideas that fit your budget"
       prompt: "Suggest a venue in Toronto for 50 guests under $2000."
-    - title: "Build a guest list"
+    - id: "build-guest-list"
+      title: "Build a guest list"
       subtitle: "Add people to your event"
       prompt: "Start a guest list and add Sarah, Mike, and Priya."</code></pre></div>
             </div>
           </details>
-          <div class="note">
-            <div class="nt">Sharing one instance? Rename your agent</div>
-            <p>If everyone connects to the same Orchestrate instance, give your agent a unique <code class="ic">name:</code> — add your initials, e.g. <code class="ic">event_planner_js</code> — so you can find your own. Just tell Bob “rename the agent to event_planner_js,” or edit the <code class="ic">name:</code> line yourself. Use underscores, never dashes.</p>
-          </div>
         </li>
         <li class="step">
           <span class="badge">3</span>
+          <div class="stitle">Rename your agent — required</div>
+          <p>Everyone is connecting to the <b>same</b> shared Orchestrate instance, so you <b>must</b> give your agent a unique name — otherwise you'll overwrite someone else's and won't be able to find your own.</p>
+          <p>In <code class="ic">event_planner.yaml</code>, change the <code class="ic">name:</code> line to add your initials:</p>
+          <div class="cmd"><pre><code>name: event_planner_js</code></pre></div>
+          <p>Either edit that line yourself, or tell Bob <i>“rename the agent to <code class="ic">event_planner_js</code>.”</i> Use <b>underscores, never dashes</b>.</p>
+          <div class="note">
+            <div class="nt">Only the <code class="ic">name:</code> changes — not the filename</div>
+            <p>Leave the file itself named <code class="ic">event_planner.yaml</code>. The filename only lives on your laptop, so it doesn't need your initials, and keeping it the same means the import command below works as-is. It's the <code class="ic">name:</code> <i>inside</i> the file that lands on the shared instance.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
           <div class="stitle">Upload the agent</div>
           <p>Back in <b>the terminal</b> — this connects to your instance, so it's yours to run:</p>
           <div class="cmd"><pre><code>orchestrate agents import -f event_planner.yaml</code></pre></div>
+          <p class="runline">You may see a yellow <code class="ic">[WARNING] … style 'default' is set to be deprecated</code> line. That's harmless — the agent still imports and works fine. You can ignore it for this workshop.</p>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 Shortcut</span> let Bob import the agent for you</summary>
+            <div class="fixbody">
+              <p>With the Orchestrate know-how from <b>Step 6</b> connected, you can ask Bob to import it instead:</p>
+              <div class="cmd"><pre><code>Import my event_planner.yaml agent into watsonx Orchestrate with the ADK, then list the agents to confirm it's there.</code></pre></div>
+              <p>Bob runs the import in its own terminal (approve when asked). Make sure you already did the <b>rename in Step 3</b> — Bob imports whatever <code class="ic">name:</code> is in the file, so the unique name still matters.</p>
+              <p class="runline">Either path works the same — run it yourself above if you'd rather see the command.</p>
+            </div>
+          </details>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — agent created</div>
-          <p>You see <code class="ic">Agent 'event_planner' imported successfully</code>, and it appears in <code class="ic">orchestrate agents list</code>.</p>
+          <p>You see <code class="ic">Agent '…' imported successfully</code> (with your renamed agent), and it appears in <code class="ic">orchestrate agents list</code>.</p>
         </li>
       </ol>
 
@@ -1144,8 +1223,8 @@ starter_prompts:
         <li class="step">
           <span class="badge">1</span>
           <div class="stitle">Start chatting</div>
-          <p>(Use your unique name here if you added initials in Step 10.)</p>
-          <div class="cmd"><pre><code>orchestrate chat ask --agent-name event_planner</code></pre></div>
+          <p>Use <b>your</b> renamed agent here (the one with your initials from Step 10):</p>
+          <div class="cmd"><pre><code>orchestrate chat ask --agent-name event_planner_js</code></pre></div>
         </li>
         <li class="step">
           <span class="badge">2</span>
@@ -1197,7 +1276,7 @@ starter_prompts:
         <li class="step">
           <span class="badge">2</span>
           <div class="stitle">Run it</div>
-          <p>In a Bob terminal, make sure you're in your project folder (the one with <code class="ic">.env</code> and <code class="ic">chat.py</code>), then start it:</p>
+          <p>You run this one yourself — it's a normal command you type in the terminal, not something you ask Bob to do. In your terminal inside Bob (Terminal → New Terminal), make sure you're in your project folder (the one with <code class="ic">.env</code> and <code class="ic">chat.py</code>), then start it:</p>
           <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python chat.py</code></pre></div></div>
           <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python chat.py</code></pre></div></div>
           <div class="os-block" data-os="win"><div class="cmd"><pre><code>python chat.py</code></pre></div></div>
@@ -1206,7 +1285,7 @@ starter_prompts:
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Open it and chat</div>
-          <p>Open <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> in your browser. Pick your agent from the dropdown at the top (use your initials version if you renamed it in Step 10), then try the same kinds of questions:</p>
+          <p>Open <a href="http://localhost:3000" target="_blank" rel="noopener">http://localhost:3000</a> in your browser. Pick <b>your</b> agent from the dropdown at the top (the initials version you named in Step 10), then try the same kinds of questions:</p>
           <ul>
             <li>“Plan a 40-person team offsite in Austin.”</li>
             <li>“Estimate the budget for a 120-guest wedding.”</li>
@@ -1238,14 +1317,22 @@ starter_prompts:
           <p>Something else is using that port. Open <code class="ic">chat.py</code>, change the line near the top that reads <code class="ic">PORT = 3000</code> to <code class="ic">PORT = 3001</code>, save, run it again, and open <code class="ic">http://localhost:3001</code> instead.</p>
         </div>
       </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> (Mac) you see <code class="ic">SSL: CERTIFICATE_VERIFY_FAILED</code></summary>
+        <div class="fixbody">
+          <p>On a Mac you may see a warning ending in <code class="ic">SSL: CERTIFICATE_VERIFY_FAILED … unable to get local issuer certificate</code>. The page still opens, but the agent dropdown stays empty. This just means your Python install hasn't loaded its root certificates yet.</p>
+          <p>Fix it once — run this in your terminal, then start <code class="ic">chat.py</code> again:</p>
+          <div class="cmd"><pre><code>open /Applications/Python\ 3.*/Install\ Certificates.command</code></pre></div>
+          <p>That opens Python's bundled <b>Install Certificates</b> helper; let it finish, then re-run <code class="ic">python chat.py</code> and refresh the page. Your agents should now load.</p>
+        </div>
+      </details>
     </section>
 
     <!-- 13 NEXT -->
     <section id="next">
       <div class="sec-eyebrow">STEP 13 <span class="time">· ~10 min</span></div>
       <h2>Wrap-up &amp; what's next</h2>
-      <img class="bob-cheer" src="assets/img/bob.png" alt="Bob celebrating">
-      <p class="intro">Look at what you just did: installed Python, an IDE, and a full agent toolkit from scratch, connected to a cloud AI platform, wrote three tools, and shipped an agent that reasons about when to use them. That's the whole loop — edit, import, chat.</p>
+      <p class="intro" style="max-width:none;">Look at what you just did: installed Python, an IDE, and a full agent toolkit from scratch, connected to a cloud AI platform, wrote three tools, and shipped an agent that reasons about when to use them. That's the whole loop — edit, import, chat.</p>
       <h3>Where to go from here</h3>
       <ul>
         <li><b>Give it knowledge.</b> Add a knowledge base so the agent can answer from documents you provide (Orchestrate's built-in RAG) — imagine an “event-planning tips” guide it can quote.</li>
@@ -1253,12 +1340,12 @@ starter_prompts:
         <li><b>Add a real tool.</b> Swap the mock venue data for a real API call. The tool is just Python, so anything you can code, your agent can do.</li>
       </ul>
       <h3>Claim your certificate 🎉</h3>
-      <p>You earned it. Grab your <b>IBM Bob Champion</b> certificate of recognition here:</p>
-      <p><a class="certbtn" href="https://ibmbobdevday.com/internal/certificate.html" target="_blank" rel="noopener">Get my certificate →</a></p>
+      <p>You earned it. Here's your <b>IBM Bob Champion</b> certificate of recognition — personalized with your name:</p>
       <figure class="shot narrow">
         <img src="assets/img/certificate-example.png" alt="Example IBM Bob Champion certificate of recognition">
         <figcaption>What your certificate looks like — personalized with your name.</figcaption>
       </figure>
+      <p><a class="certbtn" href="https://ibmbobdevday.com/internal/certificate.html" target="_blank" rel="noopener">Get my certificate →</a></p>
 
       <div class="callout tip">
         <div class="ct">Share the win</div>
@@ -1285,7 +1372,7 @@ starter_prompts:
       </details>
       <details class="fix">
         <summary><span class="caret">▶</span><span class="wtag">FIX</span> “Authentication failed” or commands stopped working</summary>
-        <div class="fixbody"><p>The connection expires after ~2 hours. Reload your <code class="ic">.env</code> and re-activate — the exact per-OS commands are in the “⚠ Only if…” bar at the end of <b>Step 06</b>. Check your environments any time with <code class="ic">orchestrate env list</code>.</p></div>
+        <div class="fixbody"><p>The connection expires after ~2 hours. Reload your <code class="ic">.env</code> and re-activate — the exact per-OS commands are in the “⚠ Only if…” bar at the end of <b>Step 07</b>. Check your environments any time with <code class="ic">orchestrate env list</code>.</p></div>
       </details>
       <details class="fix">
         <summary><span class="caret">▶</span><span class="wtag">FIX</span> Agent import fails with a validation error</summary>
