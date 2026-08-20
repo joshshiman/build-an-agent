@@ -870,9 +870,9 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
       <p>Each tool is just a small Python function with a clear description. Let's write them.</p>
 
       <h3>The whole picture</h3>
-      <p>Here's how the pieces you're about to build fit together — you build the agent in Bob, deploy it to watsonx Orchestrate, and a small <code class="ic">chat.py</code> on your laptop lets you talk to it. The model (Llama 3.3) decides which of the three tools to call.</p>
+      <p>Here's how the pieces you're about to build fit together — you build the agent in Bob, deploy it to watsonx Orchestrate, and a small <code class="ic">chat.py</code> on your laptop lets you talk to it. The model decides which of the three tools to call.</p>
       <figure class="shot">
-        <img src="assets/img/agent-flow-diagram.png" alt="Diagram: you type a message into chat.py on your laptop, which relays it via IAM (key to token) to the agent in watsonx Orchestrate; Llama 3.3 does the reasoning and calls the estimate-budget, suggest-venues, and guest-list tools, then the reply comes back. Bob (with the docs MCP) builds the agent and deploys it via the Orchestrate ADK.">
+        <img src="assets/img/agent-flow-diagram.png" alt="Diagram: you type a message into chat.py on your laptop, which relays it via IAM (key to token) to the agent in watsonx Orchestrate; the model does the reasoning and calls the estimate-budget, suggest-venues, and guest-list tools, then the reply comes back. Bob (with the docs MCP) builds the agent and deploys it via the Orchestrate ADK.">
         <figcaption>The event-planner agent end to end: built in Bob (with the docs MCP), deployed via the Orchestrate ADK, and reached from your laptop through <code class="ic">chat.py</code>.</figcaption>
       </figure>
     </section>
@@ -1075,14 +1075,22 @@ orchestrate tools import -k python -f tools/update_guest_list.py</code></pre></d
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — three tools uploaded</div>
-          <p>All three — <code class="ic">estimate_event_budget</code>, <code class="ic">suggest_venues</code>, and <code class="ic">update_guest_list</code> — show up in the list.</p>
+          <p>All three — <code class="ic">estimate_event_budget</code>, <code class="ic">suggest_venues</code>, and <code class="ic">update_guest_list</code> — appear in the list.</p>
         </li>
       </ol>
 
       <details class="fix tip-d">
         <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> an import failed? Ask Bob</summary>
         <div class="fixbody">
-          <p>Copy the red error text, paste it into Bob's chat, and ask: “This <code class="ic">orchestrate tools import</code> command failed with this error — what's wrong?” Bob can usually spot a typo or missing line.</p>
+          <p>Copy the red error text, paste it into Bob's chat, and ask: "This <code class="ic">orchestrate tools import</code> command failed with this error — what's wrong?" Bob can usually spot a typo or missing line.</p>
+        </div>
+      </details>
+
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Good to know</span> you may see "Error getting Python tool status" — that's expected here</summary>
+        <div class="fixbody">
+          <p>These workshop instances don't have the Python tool <i>execution</i> runtime enabled, so when the agent calls a tool it will wait, then time out after about 90 seconds. That won't break your demo: the agent's instructions tell it to fall back to its own knowledge once the tool is unavailable, so after the pause it still answers with a reasonable budget or venue suggestion on its own. Give it that ~90-second moment — it's the tool call timing out, not a crash.</p>
+          <p>The point of this step is to show <b>how</b> the agent decides to reach for a tool and wire it up. On a full Orchestrate instance with the runtime enabled, these same tools execute for real and return instantly — no changes to your agent needed.</p>
         </div>
       </details>
     </section>
@@ -1100,17 +1108,19 @@ orchestrate tools import -k python -f tools/update_guest_list.py</code></pre></d
           <p>With Bob still in <b>Agent mode</b>, paste this into the chat:</p>
           <div class="cmd"><pre><code>Create a file called event_planner.yaml in my project root. It should
 define a watsonx Orchestrate native agent (spec_version v1, kind native)
-named event_planner that uses the model
-watsonx/meta-llama/llama-3-3-70b-instruct and lists my three tools:
-estimate_event_budget, suggest_venues, and update_guest_list.
+named event_planner that uses the model groq/openai/gpt-oss-120b and
+style react_core, and lists my three tools: estimate_event_budget,
+suggest_venues, and update_guest_list.
 
 Write instructions telling it to be a friendly event-planning assistant:
-use each tool appropriately, ask one short clarifying question when it is
-missing a city, guest count, budget, or event type, and always pass the
-full guest list back to update_guest_list so nothing is lost. Add a short
-welcome message and exactly three starter prompts. Give each starter
-prompt its own unique "id" field, and do NOT include an
-"is_default_prompts" field (it is not part of the schema).</code></pre></div>
+prefer the tools when they fit the request, but if a tool is unavailable or
+returns an error, answer helpfully from its own knowledge instead so the
+conversation always keeps moving. Ask one short clarifying question when
+missing a city, guest count, budget, or event type, and pass the full guest
+list back to update_guest_list so nothing is lost. Add a short welcome message and
+exactly three starter prompts. Give each starter prompt its own unique
+"id" field, and do NOT include an "is_default_prompts" field (it is not
+part of the schema).</code></pre></div>
           <p>Approve the change, then open the new <code class="ic">event_planner.yaml</code> to see what Bob wrote.</p>
         </li>
         <li class="step">
@@ -1128,31 +1138,37 @@ description: &gt;
   A friendly event-planning assistant that helps people plan gatherings.
   It can estimate a budget, suggest venues that fit the guest count and
   spend, and keep track of the guest list.
-llm: watsonx/meta-llama/llama-3-3-70b-instruct
-style: default
+llm: groq/openai/gpt-oss-120b
+style: react_core
 instructions: &gt;
   You are a warm, practical event-planning assistant. You help users plan
   events such as birthday parties, team offsites, weddings, conferences,
   and casual gatherings.
 
-  You have three tools:
-  - Use estimate_event_budget when the user wants to know how much an event
-    might cost. You need the number of guests and the type of event.
-  - Use suggest_venues when the user wants venue ideas. You need the city,
-    the number of guests, and the maximum venue budget.
-  - Use update_guest_list to add or remove people from the guest list.
-    Always pass back the full current guest list so nothing is lost.
+  You have three tools you can use when they fit the request:
+  - estimate_event_budget: for questions about cost, budget, or price for
+    an event. Inputs: num_guests (integer) and event_type (string).
+  - suggest_venues: for venue ideas or recommendations. Inputs: city
+    (string), num_guests (integer), max_budget (number).
+  - update_guest_list: for adding or removing guests. Inputs:
+    current_guests (list, use [] to start), action ("add" or "remove"),
+    names (list). Pass back the full guest list so nothing is lost
+    between turns.
 
-  If you are missing a detail a tool needs (city, guest count, budget, or
-  event type), ask one short clarifying question before calling the tool.
-  Keep your tone friendly and concise.
+  Prefer a tool when one fits the request. If a tool is unavailable or
+  returns an error, don't get stuck — answer helpfully from your own
+  knowledge instead, giving a reasonable estimate or suggestion so the
+  conversation always keeps moving forward.
+
+  If you are missing an important detail, ask one short clarifying
+  question. Keep your tone friendly and concise.
 tools:
   - estimate_event_budget
   - suggest_venues
   - update_guest_list
 welcome_content:
-  welcome_message: "Hi! I'm your event planning assistant."
-  description: "I can estimate a budget, suggest venues, and manage your guest list."
+  welcome_message: "Hi! I'm your event planning assistant. 🎉"
+  description: "I can estimate a budget, suggest venues, and manage your guest list — just tell me about your event."
 starter_prompts:
   prompts:
     - id: "estimate-budget"
@@ -1187,7 +1203,6 @@ starter_prompts:
           <div class="stitle">Upload the agent</div>
           <p>Back in <b>the terminal</b> — this connects to your instance, so it's yours to run:</p>
           <div class="cmd"><pre><code>orchestrate agents import -f event_planner.yaml</code></pre></div>
-          <p class="runline">You may see a yellow <code class="ic">[WARNING] … style 'default' is set to be deprecated</code> line. That's harmless — the agent still imports and works fine. You can ignore it for this workshop.</p>
           <details class="fix tip-d">
             <summary><span class="caret">▶</span><span class="wtag">💡 Shortcut</span> let Bob import the agent for you</summary>
             <div class="fixbody">
@@ -1208,7 +1223,8 @@ starter_prompts:
       <details class="fix tip-d">
         <summary><span class="caret">▶</span><span class="wtag">💡 Note</span> about the model line</summary>
         <div class="fixbody">
-          <p>The <code class="ic">llm:</code> line sets which model powers the agent. Your instructor will confirm the exact model enabled on the workshop instance — if it's different, swap it in on that line and re-import.</p>
+          <p>The <code class="ic">llm:</code> line sets which model powers the agent. These workshop instances use <code class="ic">groq/openai/gpt-oss-120b</code> as the default model — use this value exactly. To confirm what models are available on your instance, run <code class="ic">orchestrate models list</code>.</p>
+          <p><b>Note on tool-calling behaviour:</b> <code class="ic">gpt-oss-120b</code> often prefers to answer from its own knowledge rather than call a tool. For this workshop that's intentional — the agent's instructions let it fall back to its own knowledge when a tool isn't available, so you always get a helpful answer even though these instances can't execute the Python tools. On a full instance where the tools run, you'd strengthen the instructions to prefer tools more firmly.</p>
         </div>
       </details>
     </section>
@@ -1265,11 +1281,25 @@ starter_prompts:
         <li class="step">
           <span class="badge">1</span>
           <div class="stitle">Add <code class="ic">chat.py</code> to your project</div>
-          <p>Your instructor is sharing a file called <code class="ic">chat.py</code>. Save it into your project folder — the <b>same folder as your <code class="ic">.env</code></b>. That's it; you don't need to edit it.</p>
+          <p><code class="ic">chat.py</code> is in the shared workshop folder on Box: <a href="https://ibm.box.com/v/internaldevday" target="_blank" rel="noopener">ibm.box.com/v/internaldevday</a> (the same password-protected folder you got your credentials from in Step 7). Download it and save it into your project folder — the <b>same folder as your <code class="ic">.env</code></b>. That's it; you don't need to edit it.</p>
           <details class="fix tip-d">
             <summary><span class="caret">▶</span><span class="wtag">💡 What is this file doing?</span> (worth 30 seconds)</summary>
             <div class="fixbody">
               <p>Your browser isn't allowed to call Orchestrate directly, and your API key must never sit inside a web page where anyone could read it. So <code class="ic">chat.py</code> runs on <i>your</i> machine: it keeps the key safe, swaps it for a short-lived token, and relays your messages to the agent and back. The web page only ever talks to your own little program.</p>
+            </div>
+          </details>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 Want to build it yourself?</span> have Bob write <code class="ic">chat.py</code> for you</summary>
+            <div class="fixbody">
+              <p>If you'd rather not download the file, Bob can generate it. Paste this into Bob's chat — it already knows Orchestrate from the docs MCP you added in Step 6:</p>
+              <div class="cmd"><pre><code>Create a chat.py in my project folder that serves a small web chat UI for my watsonx Orchestrate agent. It should:
+- Read WXO_URL and WXO_API_KEY from my .env (never expose the key to the browser)
+- Exchange the API key for a short-lived IAM token
+- List my deployed agents so I can pick one from a dropdown
+- Relay messages to the Orchestrate chat completions API and stream the reply back
+- Run a local server on http://localhost:3000
+Keep it to one file with no extra dependencies beyond the standard library plus requests.</code></pre></div>
+              <p class="runline">Skim what Bob writes before running it, then continue with step 2 below. If anything misbehaves, just grab the ready-made <code class="ic">chat.py</code> from Box instead.</p>
             </div>
           </details>
         </li>
