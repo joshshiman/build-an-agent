@@ -1,0 +1,3 @@
+# Sensitive: contains live watsonx Orchestrate API keys — never commit
+wxo-environments.md
+wxo-environments-attendees.md
