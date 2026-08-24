@@ -887,6 +887,8 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
       <h2>Build the tools</h2>
       <p class="intro">Now the fun part — and here's where Bob earns its keep. Instead of typing three Python files by hand, you'll <b>describe the tools to Bob and let it write them</b>. The important idea to notice: each tool is a Python function with a plain-English docstring, and that description is what the AI reads to decide when to use the tool.</p>
 
+      <div class="callout tip"><div class="ct">Unique names required</div><p>Everyone is uploading to the <b>same</b> shared Orchestrate instance. Your tools need unique names — add your initials to the end of each function name (e.g. <code class="ic">estimate_event_budget_js</code>) before importing. You'll do this in Step 2 below.</p></div>
+
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
