@@ -21,7 +21,7 @@ You'll use this to sign in during the lab. Create one in advance at https://www.
 ### 🍎 macOS
 
 **Python 3.12** — Go to https://www.python.org/downloads/ and click the big yellow "Download Python 3.12" button. Open the downloaded `.pkg` file, click Continue → Agree → Install, enter your Mac password, and wait for "The installation was successful."
-*(Already have Python 3.11, 3.12, or 3.13? Skip this — run `python3 --version` in Terminal to check.)*
+*(Already have Python 3.12? Skip this — run `python3 --version` in Terminal to check.)*
 
 **IBM Bob** — Download the **macOS** version from https://bob.ibm.com/download (a `.dmg` file), drag Bob into Applications, open it, and sign in with your IBM ID.
 
@@ -30,7 +30,7 @@ You'll use this to sign in during the lab. Create one in advance at https://www.
 ### 🪟 Windows
 
 **Python 3.12** — Go to https://www.python.org/downloads/ and click the big yellow "Download Python 3.12" button. Run the downloaded `.exe`, and on the very first screen **tick "Add python.exe to PATH"** (this prevents the most common problem people hit), then click Install Now.
-*(Already have Python 3.11, 3.12, or 3.13? Skip this — run `python --version` in PowerShell to check.)*
+*(Already have Python 3.12? Skip this — run `python --version` in PowerShell to check.)*
 
 **IBM Bob** — Download the **Windows** version from https://bob.ibm.com/download (an `.exe` installer), click through the installer, then open Bob from the Start menu and sign in with your IBM ID.
 
@@ -46,7 +46,7 @@ sudo apt install python3.12 python3.12-venv python3-pip
 ```
 
 On Fedora, use `sudo dnf install python3.12` instead. (Type your password if asked — you won't see it as you type, that's normal.)
-*(Already have Python 3.11, 3.12, or 3.13? Skip this — run `python3 --version` to check.)*
+*(Already have Python 3.12? Skip this — run `python3 --version` to check.)*
 
 **IBM Bob** — Download the **Linux** version from https://bob.ibm.com/download (`.deb` or AppImage), install it, open it, and sign in with your IBM ID.
 
