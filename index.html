@@ -307,6 +307,8 @@
       <h2>Install Python</h2>
       <p class="intro">Python is the programming language our agent toolkit is built on, so it has to go on your computer first. We want version <b>3.12</b>. Follow the numbered steps — we'll even check whether you already have it.</p>
 
+      <div class="callout tip"><div class="ct">Tip</div><p>You can ask Bob to install Python 3.12 for you — or complete the steps below manually.</p></div>
+
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
@@ -330,17 +332,19 @@
           <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
           <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
           <div class="os-block" data-os="win"><div class="cmd"><pre><code>python --version</code></pre></div></div>
-          <p>If it prints <code class="ic">Python 3.11</code>, <code class="ic">3.12</code>, or <code class="ic">3.13</code> (any of those), you're already done — <b>skip to Step 02, Install IBM Bob</b>. If you get an error or an older version, keep going.</p>
+          <p>If it prints <code class="ic">Python 3.12</code>, you're already done — <b>skip to Step 02, Install IBM Bob</b>. If you get an error or a different version, keep going.</p>
         </li>
 
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Download Python 3.12</div>
           <div class="os-block" data-os="mac"><div class="os-flag">macOS</div>
-            <p>Go to <a class="inline" href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> and click the big yellow <b>“Download Python 3.12”</b> button at the top. It saves a <code class="ic">.pkg</code> file to your Downloads.</p>
+            <p>Go to <a class="inline" href="https://www.python.org/downloads/release/python-3120/" target="_blank" rel="noopener">python.org/downloads/release/python-3120</a> and scroll down to the <b>Files</b> section. Click the installer for your device to download the <code class="ic">.pkg</code> file.</p>
+            <img src="assets/img/python-download-options.png" alt="Python 3.12 download options showing macOS, Windows, and Source release buttons" style="max-width:100%;border-radius:6px;margin-top:8px;" />
           </div>
           <div class="os-block" data-os="win"><div class="os-flag">Windows</div>
-            <p>Go to <a class="inline" href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a> and click the big yellow <b>“Download Python 3.12”</b> button at the top. It saves a <code class="ic">.exe</code> file to your Downloads.</p>
+            <p>Go to <a class="inline" href="https://www.python.org/downloads/release/python-3120/" target="_blank" rel="noopener">python.org/downloads/release/python-3120</a> and scroll down to the <b>Files</b> section. Click <b>"Download Python install manager"</b> to download the installer.</p>
+            <img src="assets/img/python-download-options.png" alt="Python 3.12 download options showing macOS, Windows, and Source release buttons" style="max-width:100%;border-radius:6px;margin-top:8px;" />
           </div>
           <div class="os-block" data-os="linux"><div class="os-flag">Linux (Ubuntu / Debian)</div>
             <p>You'll install from the terminal instead of a website. Run these two commands:</p>
@@ -375,7 +379,7 @@ sudo apt install python3.12 python3.12-venv python3-pip</code></pre></div>
           <div class="os-block" data-os="mac"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
           <div class="os-block" data-os="linux"><div class="cmd"><pre><code>python3 --version</code></pre></div></div>
           <div class="os-block" data-os="win"><div class="cmd"><pre><code>python --version</code></pre></div></div>
-          <p>You should see <b>Python 3.11, 3.12, or 3.13</b>. If you do — you're ready for the next step.</p>
+          <p>You should see <b>Python 3.12</b>. If you do — you're ready for the next step.</p>
         </li>
       </ol>
 
@@ -883,6 +887,8 @@ orchestrate env activate workshop --api-key "$env:WXO_API_KEY"</code></pre></div
       <h2>Build the tools</h2>
       <p class="intro">Now the fun part — and here's where Bob earns its keep. Instead of typing three Python files by hand, you'll <b>describe the tools to Bob and let it write them</b>. The important idea to notice: each tool is a Python function with a plain-English docstring, and that description is what the AI reads to decide when to use the tool.</p>
 
+      <div class="callout tip"><div class="ct">Unique names required</div><p>Everyone is uploading to the <b>same</b> shared Orchestrate instance. Your tools need unique names — add your initials to the end of each function name (e.g. <code class="ic">estimate_event_budget_js</code>) before importing. You'll do this in Step 2 below.</p></div>
+
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
@@ -1369,24 +1375,6 @@ Keep it to one file with no extra dependencies beyond the standard library plus 
         <li><b>Make it a team.</b> Add a second agent — say, a catering specialist — and let the event planner hand off to it. That's multi-agent orchestration.</li>
         <li><b>Add a real tool.</b> Swap the mock venue data for a real API call. The tool is just Python, so anything you can code, your agent can do.</li>
       </ul>
-      <h3>Claim your certificate 🎉</h3>
-      <p>You earned it. Here's your <b>IBM Bob Champion</b> certificate of recognition — personalized with your name:</p>
-      <figure class="shot narrow">
-        <img src="assets/img/certificate-example.png" alt="Example IBM Bob Champion certificate of recognition">
-        <figcaption>What your certificate looks like — personalized with your name.</figcaption>
-      </figure>
-      <p><a class="certbtn" href="https://ibmbobdevday.com/internal/certificate.html" target="_blank" rel="noopener">Get my certificate →</a></p>
-
-      <div class="callout tip">
-        <div class="ct">Share the win</div>
-        <p>Proud of what you built? Post it — it helps others discover Bob and watsonx Orchestrate.</p>
-        <ul>
-          <li><b>LinkedIn:</b> share a screenshot of your certificate (or your running agent) with a line about what you built. Tag <b>#IBMBob</b>, <b>#watsonxOrchestrate</b>, and <b>#BuildAnAgent</b>.</li>
-          <li><b>Tell the story, not just the tool:</b> “Today I went from an empty laptop to a working AI agent that plans events — here's what surprised me…” lands better than “I attended a workshop.”</li>
-          <li><b>Tag IBM</b> and your instructor/teammates so they can reshare, and drop a screenshot of the agent actually answering a question.</li>
-        </ul>
-      </div>
-
       <div class="callout tip withbob"><img src="assets/img/bob-head.png" alt="Bob"><div><div class="ct">Keep building with Bob</div><p>Everything you did here, Bob can help you extend. Describe what you want in plain language and iterate.</p></div></div>
     </section>
 
